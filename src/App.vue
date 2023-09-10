@@ -1,9 +1,11 @@
 <script setup>
-
+  import ClickerExample from './components/ClickerExample.vue';
+  import Homepage from './components/homepage.vue';
 </script>
 
 <template>
-  <h1>Hello World!</h1>
+  <!-- <ClickerExample /> -->
+  <Homepage />
 </template>
 
 <style scoped>
