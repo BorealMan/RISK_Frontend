@@ -1,18 +1,25 @@
 import { defineStore } from 'pinia'
 
-export const gameStore = defineStore("GameStore", {
+export const GameStore = defineStore("GameStore", {
     state: () => ({
-        GameKey: "",
-        Player: {},
+        Game: undefined,
+        Player: undefined,
     }),
-    getters: () => {
-
+    getters: {
+        getGameKey() {
+            return this.GameKey;
+        }
     },
-    // actions: () => {
-    //     GetGame() {
-    //         fetch("http://localhost:5000")
-    //         .then(res => res.json())
-    //         .then(this.GameKey = key);
-    //     },
-    // }
+    actions: {
+        newGame() {
+            fetch('http://localhost:5000/game/newgame')
+            .then(res => res.json())
+            .then(res => {
+                console.log(res)
+            })
+        },
+        syncGame() {
+
+        }
+    }
 })
