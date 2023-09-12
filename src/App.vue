@@ -1,22 +1,21 @@
 <script setup>
 import { GameStore } from './store/game';
 import Homepage from './components/Homepage.vue';
-import Lobby from './components/Lobby.vue'
+import Lobby from './components/Lobby/Lobby.vue'
 import Players from './components/players/Players.vue';
-import { storeToRefs } from 'pinia'
 
+import { storeToRefs } from 'pinia'
 // Init State
 const gamestore = GameStore()
-
-const { GameKey } = storeToRefs(gamestore)
+const { Game } = storeToRefs(gamestore)
 
 </script>
 
 <template>
-  <!-- <ClickerExample /> -->
   <Lobby v-if="Game !== undefined" />
   <Homepage v-else />
   <!-- <Players /> -->
+  <!-- <Lobby /> -->
 </template>
 
 <style scoped></style>

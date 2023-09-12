@@ -3,6 +3,7 @@
 import { ref } from 'vue'
 
 const test = ref(0) 
+const text = ref("")
 
 function increment() {
     test.value++;
@@ -22,6 +23,13 @@ function decrement() {
             <p @click="decrement">-</p>
         </div>
     </div>
+
+    <div class="counter">
+        <label>Name: </label>
+        <input v-model="text" /> 
+        <div>{{ text }}</div>
+    </div>
+
 </template>
 
 <style scoped>
