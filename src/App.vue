@@ -1,7 +1,7 @@
 <script setup>
 import { GameStore } from './store/game';
 import Homepage from './components/Homepage.vue';
-import Lobby from './components/Lobby/Lobby.vue'
+import Lobby from './components/lobby/Lobby.vue'
 import Players from './components/players/Players.vue';
 
 import { storeToRefs } from 'pinia'
@@ -12,8 +12,8 @@ const { Game } = storeToRefs(gamestore)
 </script>
 
 <template>
-  <Lobby v-if="Game !== undefined" />
-  <Homepage v-else />
+  <!-- <Lobby v-if="Game !== undefined" /> -->
+  <!-- <Homepage v-else /> -->
   <!-- <Players /> -->
   <Lobby />
 </template>
