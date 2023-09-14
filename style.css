@@ -4,3 +4,17 @@
     box-sizing: border-box;
     scroll-behavior: smooth;
 }
+
+.container {
+    height:100vh;
+    display:block;
+}
+
+.overlay {
+    position:absolute;
+    left:0;
+    right:0;
+    top:0;
+    bottom:0;
+    background:rgb(48, 48, 48, .1); 
+}

@@ -1,26 +1,31 @@
 <script setup>
-    import Modal from '../../modal/Modal.vue'
     import { ref } from 'vue'
 
+    const props = defineProps(['setUsername'])
+
     const username = ref ("");
-    const temp = ref("")
+    const err = ref("");
 
     function EnterName() {
-        username.value = temp.value;
+        // Validate This -> Go To The Server 
+        if (username.value === "") {
+            err.value = "Username Required"
+            return;
+        }
+        // If Successful
+        props.setUsername();
     }
 </script>
 
 <template>
-    <Modal class="modal" v-if="username.length==0">
+    <div class="container">
         <div class="userprompt">
             <h1>Please Enter a Username</h1>
-            <input type="text" required placeholder="Username" v-model="temp">
-            <div>
-                <button @click="EnterName">Enter Name</button>
-            </div>
+            <input type="text" placeholder="Username" v-model="username">
+            <button @click="EnterName">Enter Name</button>
+            <p class="error">{{ err }}</p>
         </div>
-    </Modal>
-    
+    </div>
 </template>
 
 <style scoped>
@@ -30,13 +35,14 @@
         color: white;
         padding: 1rem;
         background-color: darkslateblue;
-    }
-    .modal{
-        top:35%;
-        left: 25%;
-        width: 50%;
+        position:absolute;
+        top:50%;
+        left:50%;
+        transform:translate(-50%, -50%);
     }
     button {
+        display:block;  
+        margin:auto;
         padding: .25rem;
         border-radius: 10px;
         background: lightgrey;
@@ -49,5 +55,11 @@
         margin-top: 1rem;
         padding: .1rem;
         font-size: 1rem;
+    }
+    .error {
+        margin-top:1rem;
+        font-size:1.25rem;
+        color:orange;
+        font-weight:600;
     }
 </style>
