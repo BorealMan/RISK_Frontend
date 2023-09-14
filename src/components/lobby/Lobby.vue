@@ -1,6 +1,7 @@
 <script setup>
     import Username from './Popups/Username.vue'
     import Modal from "../modal/Modal.vue"
+
 </script>
 
 <template>
