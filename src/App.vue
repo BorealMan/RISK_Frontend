@@ -16,8 +16,8 @@ const { Game } = storeToRefs(gamestore)
   <!-- <Lobby v-if="Game !== undefined" /> -->
   <!-- <Homepage v-else /> -->
   <!-- <Players /> -->
-  <Chat />
-  <!-- <Lobby /> -->
+  <!-- <Chat /> -->
+  <Lobby />
 </template>
 
 <style scoped></style>

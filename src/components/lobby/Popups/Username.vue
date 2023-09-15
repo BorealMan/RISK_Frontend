@@ -21,9 +21,9 @@
     <div class="container">
         <div class="userprompt">
             <h1>Please Enter a Username</h1>
-            <input type="text" placeholder="Username" v-model="username">
-            <button @click="EnterName">Enter Name</button>
+            <input class="text" type="text" placeholder="Username" v-model="username">
             <p class="error">{{ err }}</p>
+            <button @click="EnterName">Enter Name</button>
         </div>
     </div>
 </template>
@@ -40,6 +40,18 @@
         left:50%;
         transform:translate(-50%, -50%);
     }
+    .text{
+        margin-top: 1rem;
+        padding: .1rem;
+        font-size: 1rem;
+        text-align: center;
+    }
+    .error {
+        margin-top:1rem;
+        font-size:1.25rem;
+        color:orange;
+        font-weight:600;
+    }
     button {
         display:block;  
         margin:auto;
@@ -50,16 +62,5 @@
         text-align: center;
         font-size: 1rem;
         font-weight:700;
-    }
-    input{
-        margin-top: 1rem;
-        padding: .1rem;
-        font-size: 1rem;
-    }
-    .error {
-        margin-top:1rem;
-        font-size:1.25rem;
-        color:orange;
-        font-weight:600;
     }
 </style>

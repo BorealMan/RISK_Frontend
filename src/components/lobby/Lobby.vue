@@ -2,6 +2,7 @@
     import { ref } from 'vue'
     import Username from './Popups/Username.vue'
     import Modal from "../modal/Modal.vue"
+    import JoinGame from './Popups/JoinGame.vue';
 
     const isUsernameSet = ref(false);
     const setUsername = () => {
@@ -21,9 +22,11 @@
     </Modal>
 
     <Modal v-show="isUsernameSet && !isLobbySet">
-
+        <JoinGame :setLobby="setLobby" />
     </Modal>
-       
+    
+    <p>{{ isLobbySet }}</p>
+    <p>{{ isUsernameSet }}</p>
     <h1>I am the lobby</h1>
 </template>
 
