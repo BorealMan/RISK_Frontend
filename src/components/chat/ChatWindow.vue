@@ -19,6 +19,7 @@ const user = "test_user";
     overflow-y: auto;
     border-bottom: 1px solid black;
     flex: 1 1 auto;
+    word-wrap: break-word;
 }
 
 .message {
