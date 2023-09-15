@@ -39,6 +39,7 @@ const players = names.map((name, i) => ({
     margin: 0.5em;
     gap: .5em;
     max-width: fit-content;
+    height: fit-content;
 }
 
 .player-container {
