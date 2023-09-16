@@ -5,6 +5,8 @@ import Lobby from './components/lobby/Lobby.vue'
 import Players from './components/players/Players.vue';
 import Chat from './components/chat/Chat.vue';
 
+import WSTest from './components/WSTest.vue';
+
 import { storeToRefs } from 'pinia'
 // Init State
 const gamestore = GameStore()
