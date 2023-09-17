@@ -18,7 +18,7 @@ function JoinAGame() {
 
         <div class="banner-bg">
             <div class="overlay"></div>
-            <img src="/src/assets/fighter-jet.jpg" />
+            <img src="/src/assets/images/fighter-jet.jpg" />
         </div>
         
         <div class="buttons">
@@ -30,11 +30,6 @@ function JoinAGame() {
 </template>
 
 <style scoped>
-    .container {
-        height:100vh;
-        display:block;
-    }
-
     .buttons {
         padding: 3rem;
         border-radius: 10px;
@@ -77,7 +72,7 @@ function JoinAGame() {
         object-fit: cover;
     }
 
-    .banner-bg .overlay {
+    .banner-bg.overlay {
         position:absolute;
         left:0;
         right:0;

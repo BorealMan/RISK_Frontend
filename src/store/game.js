@@ -1,9 +1,11 @@
 import { defineStore } from 'pinia'
+import socket from './socket.js'
 
 export const GameStore = defineStore("GameStore", {
     state: () => ({
         Game: undefined,
         Player: undefined,
+        socket: socket,
     }),
     getters: {
         getGameKey() {
@@ -11,15 +13,11 @@ export const GameStore = defineStore("GameStore", {
         }
     },
     actions: {
-        newGame() {
-            fetch('http://localhost:5000/game/newgame')
-            .then(res => res.json())
-            .then(res => {
-                console.log(res)
-            })
+        NewGame() {
+            this.socket.emit('newgame', '')
         },
-        syncGame() {
-
-        }
+        SendMessage(message) {
+            this.socket.emit('message', message)
+        },
     }
 })

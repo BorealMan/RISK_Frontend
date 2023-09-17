@@ -4,7 +4,7 @@
 
 <template>
     <div class="overlay">
-        <slot>Placeholder</slot>
+        <slot>Loading...</slot>
     </div>
 </template>
 

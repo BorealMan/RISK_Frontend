@@ -1,25 +1,23 @@
 <script setup>
-import { GameStore } from './store/game';
+// Global Styles
+import './assets/styles/style.css';
+// Components
 import Homepage from './components/Homepage.vue';
 import Lobby from './components/lobby/Lobby.vue'
 import Players from './components/players/Players.vue';
 import Chat from './components/chat/Chat.vue';
 
-import WSTest from './components/WSTest.vue';
+import SIO from './components/SocketIO.vue';
 
-import { storeToRefs } from 'pinia'
-// Init State
-const gamestore = GameStore()
-const { Game } = storeToRefs(gamestore)
 
 </script>
 
 <template>
   <!-- <Lobby v-if="Game !== undefined" /> -->
-  <!-- <Homepage v-else /> -->
+  <!-- <Homepage /> -->
   <!-- <Players /> -->
   <!-- <Chat /> -->
-  <Lobby />
+  <!-- <Lobby /> -->
+  <SIO />
 </template>
 
-<style scoped></style>
