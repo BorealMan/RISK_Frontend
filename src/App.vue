@@ -1,14 +1,18 @@
 <script setup>
+import { ref } from 'vue'
 // Global Styles
 import './assets/styles/style.css';
 // Components
 import Homepage from './components/Homepage.vue';
 import Lobby from './components/lobby/Lobby.vue'
-import Players from './components/players/Players.vue';
-import Chat from './components/chat/Chat.vue';
+// State Imports
+import GameStore from './store/game.js'
+import { storeToRefs } from 'pinia';
 
-import SIO from './components/SocketIO.vue';
+const gamestore = GameStore()
+const game = storeToRefs(gamestore)
 
+// setInterval(() => console.log(game.value), 5000)
 
 </script>
 
@@ -18,6 +22,8 @@ import SIO from './components/SocketIO.vue';
   <!-- <Players /> -->
   <!-- <Chat /> -->
   <!-- <Lobby /> -->
-  <SIO />
+  <!-- <SIO /> -->
+  <Lobby v-if="game.game_state == 0"/>
+  <Homepage v-else/>
 </template>
 

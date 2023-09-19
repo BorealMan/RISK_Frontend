@@ -1,15 +1,46 @@
 <script setup>
+import { ref } from 'vue'
+// Components
+import Modal from "./modal/Modal.vue"
+import Username from './popups/Username.vue'
+import JoinGame from './popups/JoinGame.vue';
+// State Imports
+import GameStore from '../store/game.js'
+import { storeToRefs } from 'pinia';
+
+// Init State
+const gamestore = GameStore()
+// const { Game } = storeToRefs(gamestore)
+
+const isUsernameSet = ref(false);
+const setUsername = () => {
+    isUsernameSet.value = true;
+}
+
+const isLobbySet = ref(false);
+const setLobby = () => {
+    isLobbySet.value = true;
+}
 
 function StartNewGame() {
     console.log(`Clicked Start Game`)
+    // Collect Username
+    gamestore.NewGame()
 }
 
 function JoinAGame() {
     console.log(`Clicked Join Game`)
+    gamestore.JoinGame()
 }
 
-// Init State
-// const gamestore = GameStore()
+gamestore.socket.on('newgame', (res) => {
+    console.log(res)
+})
+
+gamestore.socket.on('joingame', (res) => {
+    console.log(res)
+})
+
 
 </script>
 
@@ -25,6 +56,14 @@ function JoinAGame() {
             <div class="button" @click="StartNewGame">Start A New Game</div>
             <div class="button" @click="JoinAGame">Join A Game</div>
         </div>
+
+        <Modal v-show="!isUsernameSet">
+            <Username :setUsername="setUsername" />
+        </Modal>
+
+        <Modal v-show="isUsernameSet && !isLobbySet">
+            <JoinGame :setLobby="setLobby" />
+        </Modal>
         
     </div>
 </template>
@@ -72,8 +111,9 @@ function JoinAGame() {
         object-fit: cover;
     }
 
-    .banner-bg.overlay {
+    .banner-bg .overlay {
         position:absolute;
+        z-index: 10;
         left:0;
         right:0;
         top:0;
