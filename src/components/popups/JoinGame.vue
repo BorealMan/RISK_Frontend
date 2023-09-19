@@ -12,8 +12,9 @@ function EnterGame() {
         err.value = "No Game Key Entered"
         return;
     }
+    console.log(`GameKey: ${gamekey.value}`)
     // If Successful
-    props.setLobby(gamekey);
+    props.setLobby(gamekey.value);
 }
 </script>
 

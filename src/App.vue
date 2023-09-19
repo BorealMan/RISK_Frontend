@@ -1,5 +1,4 @@
 <script setup>
-import { ref } from 'vue'
 // Global Styles
 import './assets/styles/style.css';
 // Components
@@ -10,9 +9,7 @@ import GameStore from './store/game.js'
 import { storeToRefs } from 'pinia';
 
 const gamestore = GameStore()
-const game = storeToRefs(gamestore)
-
-// setInterval(() => console.log(game.value), 5000)
+const { Game } = storeToRefs(gamestore)
 
 </script>
 
@@ -23,7 +20,7 @@ const game = storeToRefs(gamestore)
   <!-- <Chat /> -->
   <!-- <Lobby /> -->
   <!-- <SIO /> -->
-  <Lobby v-if="game.game_state == 0"/>
+  <Lobby v-if="Game.game_state === 0"/>
   <Homepage v-else/>
 </template>
 

@@ -12,8 +12,12 @@ function EnterName() {
         err.value = "Username Required"
         return;
     }
+    if (username.value.length > 12) {
+        err.value = "Username Must Be Less Than 12";
+        return;
+    }
     // If Successful
-    props.setUsername(username);
+    props.setUsername(username.value);
 }
 </script>
 

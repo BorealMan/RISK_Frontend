@@ -3,7 +3,7 @@ import socket from './socket.js'
 
 export const GameStore = defineStore("GameStore", {
     state: () => ({
-        Game: undefined,
+        Game: {},
         PlayerID: undefined,
         socket: socket,
     }),
@@ -16,13 +16,15 @@ export const GameStore = defineStore("GameStore", {
         NewGame(username) {
             this.socket.emit('newgame', username)
         },
-        JoinGame(username, gameid) {
+        JoinGame(gameid, username) {
             this.socket.emit('joingame', gameid, username)
         },
+        // gameid, playerid
         LeaveGame() {
             this.socket.emit('leavegame', Game.game_id, PlayerID);
         },
-        SendMessage(message) {
+        // gameid, playerid, message
+        SendMessage() {
             this.socket.emit('message', Game.game_id, PlayerID, message)
         },
     }

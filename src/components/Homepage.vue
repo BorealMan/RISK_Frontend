@@ -12,35 +12,73 @@ import { storeToRefs } from 'pinia';
 const gamestore = GameStore()
 // const { Game } = storeToRefs(gamestore)
 
-const isUsernameSet = ref(false);
-const setUsername = () => {
+const err = ref(undefined);
+
+const isUsernameSet = ref(true);
+const isLobbySet = ref(true);
+const isJoinGame = ref(0);
+const lobbyKey = ref("");
+
+
+const setUsername = (username) => {
     isUsernameSet.value = true;
+    if (isJoinGame.value) {
+        gamestore.JoinGame(lobbyKey.value, username)
+    } else {
+        gamestore.NewGame(username)
+    }
 }
 
-const isLobbySet = ref(false);
-const setLobby = () => {
+const setLobby = (gamekey) => {
+    lobbyKey.value = gamekey
     isLobbySet.value = true;
+    isUsernameSet.value = false;
 }
 
 function StartNewGame() {
     console.log(`Clicked Start Game`)
-    // Collect Username
-    gamestore.NewGame()
+    isUsernameSet.value = false;
+    if (isJoinGame.value) isLobbySet.value = false;
 }
 
 function JoinAGame() {
     console.log(`Clicked Join Game`)
-    gamestore.JoinGame()
+    isJoinGame.value = true;
+    isLobbySet.value = false;
 }
 
+// Socket Events
 gamestore.socket.on('newgame', (res) => {
-    console.log(res)
+    console.log(res);
+    if (CheckErrs(res)) return;
+    gamestore.Game = res.game;
+    gamestore.PlayerID = res.player_id;
 })
 
 gamestore.socket.on('joingame', (res) => {
     console.log(res)
+    if (CheckErrs(res)) return;
+    gamestore.Game = res.game;
+    gamestore.PlayerID = res.player_id;
 })
 
+// Util Functions
+
+function ResetVars() {
+    isUsernameSet.value = true 
+    isLobbySet.value = true
+    isJoinGame.value = false
+    lobbyKey.value = ""
+}
+
+function CheckErrs(res) {
+    if (res.err !== undefined) {
+        err.value = res.err;
+        ResetVars()
+        return true;
+    }
+    return false;
+}
 
 </script>
 
@@ -55,6 +93,7 @@ gamestore.socket.on('joingame', (res) => {
         <div class="buttons">
             <div class="button" @click="StartNewGame">Start A New Game</div>
             <div class="button" @click="JoinAGame">Join A Game</div>
+            <div class="error textcenter" v-if="err !== undefined"> {{ err }}</div>
         </div>
 
         <Modal v-show="!isUsernameSet">

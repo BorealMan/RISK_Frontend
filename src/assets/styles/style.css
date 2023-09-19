@@ -49,7 +49,6 @@
     padding: .1rem;
     font-size: 1rem;
     text-align: center;
-    
 }
 
 .prompt button {
@@ -70,4 +69,14 @@
     cursor:pointer;
     background: grey;
     color:darkorange;
+}
+
+/* Utilities */
+
+.textcenter {
+    text-align: center;
+}
+
+.flex {
+    display:flex;
 }
