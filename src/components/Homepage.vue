@@ -124,7 +124,7 @@ function CheckErrs(res) {
         padding: 2rem;
         border-radius:10px;
         background: lightgrey;
-        margin-bottom:1rem;
+        margin:1rem 0;
         text-align: center;
         font-size: 1.5rem;
         font-weight:700;
