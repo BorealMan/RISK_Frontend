@@ -25,6 +25,8 @@ input {
     height: 2em;
     width: 100%;
     border: none;
+    background: none;
+    color: inherit;
 }
 
 input:focus {

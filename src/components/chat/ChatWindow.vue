@@ -24,7 +24,7 @@ const user = "test_user";
 
 .message {
     padding: 0.2em;
-    background-color: white;
+    background-color: rgba(0, 0, 0, 0.5);
 }
 
 .message:nth-child(even) {

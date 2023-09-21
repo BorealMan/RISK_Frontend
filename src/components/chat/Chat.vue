@@ -21,7 +21,7 @@ function addMessage(message) {
 <style scoped>
 .game-chat {
     width: 400px;
-    height: 200px;
+    height: 100%;
     display: flex;
     flex-direction: column;
     font-size: 1em;

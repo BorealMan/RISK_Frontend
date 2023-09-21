@@ -1,47 +1,51 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap');
+
+
 * {
-    margin:0;
-    padding:0;
+    margin: 0;
+    padding: 0;
     box-sizing: border-box;
     scroll-behavior: smooth;
+    font-family: 'Roboto', sans-serif;
 }
 
 /* General */
 .container {
-    height:100vh;
-    display:block;
+    height: 100vh;
+    display: block;
 }
 
 .overlay {
-    position:absolute;
-    left:0;
-    right:0;
-    top:0;
-    bottom:0;
-    background:rgb(48, 48, 48, .85); 
-    z-index:100;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background: rgb(48, 48, 48, .85);
+    z-index: 100;
 }
 
 /* Input */
 .error {
-    margin-top:1rem;
-    font-size:1.25rem;
-    color:orange;
-    font-weight:600;
+    margin-top: 1rem;
+    font-size: 1.25rem;
+    color: orange;
+    font-weight: 600;
 }
 
 /* Prompts */
 .prompt {
-    width:max(305px, 40%);
+    width: max(305px, 40%);
     text-align: center;
-    border-radius:10px;
+    border-radius: 10px;
     border: 10px solid whitesmoke;
     color: white;
     padding: 1rem;
     background-color: darkslateblue;
-    position:absolute;
-    top:50%;
-    left:50%;
-    transform:translate(-50%, -50%);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
 .prompt input {
@@ -52,23 +56,23 @@
 }
 
 .prompt button {
-    display:block;  
-    margin:auto;
+    display: block;
+    margin: auto;
     padding: .25rem .5rem;
     border-radius: 10px;
-    border:none;
+    border: none;
     background: lightgrey;
     margin-top: 1rem;
     text-align: center;
     font-size: 1rem;
-    font-weight:700;
+    font-weight: 700;
     transition: all 600ms ease;
 }
 
 .prompt button:hover {
-    cursor:pointer;
+    cursor: pointer;
     background: grey;
-    color:darkorange;
+    color: darkorange;
 }
 
 /* Utilities */
@@ -78,5 +82,5 @@
 }
 
 .flex {
-    display:flex;
+    display: flex;
 }
