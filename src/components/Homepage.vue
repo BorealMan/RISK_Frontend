@@ -36,13 +36,13 @@ const setLobby = (gamekey) => {
 }
 
 function StartNewGame() {
-    console.log(`Clicked Start Game`)
+    // console.log(`Clicked Start Game`)
     isUsernameSet.value = false;
     if (isJoinGame.value) isLobbySet.value = false;
 }
 
 function JoinAGame() {
-    console.log(`Clicked Join Game`)
+    // console.log(`Clicked Join Game`)
     isJoinGame.value = true;
     isLobbySet.value = false;
 }
@@ -56,7 +56,7 @@ gamestore.socket.on('newgame', (res) => {
 })
 
 gamestore.socket.on('joingame', (res) => {
-    console.log(res)
+    // console.log(`Homepage -- ${res}`)
     if (CheckErrs(res)) return;
     gamestore.Game = res.game;
     gamestore.PlayerID = res.player_id;

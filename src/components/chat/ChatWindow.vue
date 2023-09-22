@@ -1,15 +1,14 @@
 <script setup>
 
-const { messages } = defineProps(['messages']);
-const user = "test_user";
+const { messages, players } = defineProps(['messages', 'players']);
 
 </script>
 
 <template>
     <div class="chat-content">
         <p class="message" v-for="(msg, index) in messages" :key="index">
-            <b id="username">{{ user }}: </b>
-            <span class="message-input">{{ msg }}</span>
+            <b id="username">{{ players[msg.playerid-1].username }}: </b>
+            <span class="message-input">{{ msg.message }}</span>
         </p>
     </div>
 </template>
@@ -20,6 +19,7 @@ const user = "test_user";
     border-bottom: 1px solid black;
     flex: 1 1 auto;
     word-wrap: break-word;
+    height:100px;
 }
 
 .message {

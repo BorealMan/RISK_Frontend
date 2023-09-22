@@ -3,17 +3,29 @@ import ChatWindow from './ChatWindow.vue';
 import ChatInput from './ChatInput.vue';
 import { ref } from 'vue';
 
+const { players } = defineProps(['players']);
+
+import GameStore from '../../store/game.js'
+import { storeToRefs } from 'pinia';
+
+const gamestore = GameStore()
+const { Game, PlayerID } = storeToRefs(gamestore)
+
 const messages = ref([]);
 
 function addMessage(message) {
-    messages.value.push(message);
+    gamestore.SendMessage(Game.value.game_id, PlayerID.value, message);
 }
+
+gamestore.socket.on('message', (res) => {
+    messages.value.push(res)
+})
 
 </script>
 
 <template>
     <div class="game-chat">
-        <ChatWindow :messages="messages" />
+        <ChatWindow :messages="messages" :players="players" />
         <ChatInput @send-message="addMessage" />
     </div>
 </template>

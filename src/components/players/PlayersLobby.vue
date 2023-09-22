@@ -1,16 +1,6 @@
 <script setup>
-import { ref } from 'vue';
 
-const { usernames } = defineProps(['usernames']);
-
-const players = usernames.map((name, i) => ({
-    id: i + 1,
-    name: name
-}));
-
-const MAX_PLAYERS = 6;
-const emptySlots = ref(MAX_PLAYERS - players.length);
-
+const { players, emptyslots } = defineProps(['players', 'emptyslots']);
 
 // const playerColors = [
 //     'rgba(255, 0, 0, 0.7)',
@@ -25,7 +15,7 @@ const emptySlots = ref(MAX_PLAYERS - players.length);
 
 <template>
     <div class="lobby-players">
-        <div class="player" v-for="player in players" :key="player.id">
+        <div class="player" v-for="(player, index) in players" :key="index">
             <div class="player-avatar">
                 <svg xmlns="http://www.w3.org/2000/svg" height="3em" viewBox="0 0 448 512">
                     <path
@@ -33,11 +23,11 @@ const emptySlots = ref(MAX_PLAYERS - players.length);
                 </svg>
             </div>
             <div class="player-details">
-                <span class="username">{{ player.name }}</span>
+                <span class="username">{{ player.username }}</span>
             </div>
         </div>
 
-        <div class="player empty-slot" v-for="n in emptySlots" :key="'empty-' + n">
+        <div class="player empty-slot" v-for="n in emptyslots" :key="n">
             <div class="player-avatar">
                 <svg xmlns="http://www.w3.org/2000/svg" height="3em" viewBox="0 0 448 512">
                     <path

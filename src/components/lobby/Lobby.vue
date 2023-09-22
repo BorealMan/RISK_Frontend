@@ -10,20 +10,27 @@ import Chat from "../chat/Chat.vue"
 const gamestore = GameStore()
 const { Game } = storeToRefs(gamestore)
 
-const usernames = Game.value.players.map(player => player.username);
+const players = ref(Game.value.players);
+
+gamestore.socket.on('playerjoined', (res) => {
+    console.log(`Lobby - ${JSON.stringify(res.game.players)}`);
+    gamestore.Game = res.game;
+    players.value = res.game.players
+})
+
+const MAX_PLAYERS = 6;
 
 </script>
 
 <template>
-    <!-- <div>{{ JSON.stringify(Game) }}</div> -->
-
     <div class="lobby-wrapper">
         <div class="logo">
             <h1>RISK ONLINE</h1>
+            <h1>{{ gamestore.Game.game_id }}</h1>
         </div>
         <div class="lobby-content">
-            <PlayersLobby :usernames="usernames" />
-            <Chat />
+            <PlayersLobby :players="players" :emptyslots="MAX_PLAYERS-players.length" />
+            <Chat :players="players"/>
         </div>
     </div>
 </template>

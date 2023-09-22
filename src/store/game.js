@@ -24,8 +24,8 @@ export const GameStore = defineStore("GameStore", {
             this.socket.emit('leavegame', Game.game_id, PlayerID);
         },
         // gameid, playerid, message
-        SendMessage() {
-            this.socket.emit('message', Game.game_id, PlayerID, message)
+        SendMessage(gameid, playerid, message) {
+            this.socket.emit('message', gameid, playerid, message)
         },
     }
 })
