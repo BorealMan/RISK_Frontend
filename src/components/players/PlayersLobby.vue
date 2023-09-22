@@ -50,7 +50,7 @@ const { text, copy, copied, isSupported } = useClipboard({ gameID })
 
 .player {
     display: flex;
-    height: 100px;
+    height: 20%;
     border: 3px solid black;
     padding: 0.5em 1em;
     flex: 1 0 40%;
