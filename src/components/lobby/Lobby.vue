@@ -29,8 +29,8 @@ const MAX_PLAYERS = 6;
             <h1>{{ gamestore.Game.game_id }}</h1>
         </div>
         <div class="lobby-content">
-            <PlayersLobby :players="players" :emptyslots="MAX_PLAYERS-players.length" />
-            <Chat :players="players"/>
+            <PlayersLobby :players="players" :emptyslots="MAX_PLAYERS - players.length" :gameID="gamestore.Game.game_id" />
+            <Chat :players="players" />
         </div>
     </div>
 </template>

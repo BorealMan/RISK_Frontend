@@ -39,5 +39,6 @@ gamestore.socket.on('message', (res) => {
     font-size: 1em;
     border: 2px solid black;
     border-radius: 0.2em;
+    background-color: rgba(0, 0, 0, 0.5);
 }
 </style>
