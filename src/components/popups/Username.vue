@@ -25,7 +25,7 @@ function EnterName() {
     <div class="container">
         <div class="prompt">
             <h1>Please Enter a Username</h1>
-            <input type="text" @keydown.enter="EnterName" placeholder="Username" v-model="username">
+            <input type="text" @keydown.enter="EnterName" placeholder="Username" v-model="username" autofocus>
             <p class="error">{{ err }}</p>
             <button @click="EnterName">Enter Name</button>
             <div id="close" @click="props.reset()">X</div>
