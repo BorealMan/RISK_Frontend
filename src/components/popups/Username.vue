@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from 'vue'
 
-const props = defineProps(['setUsername'])
+const props = defineProps(['setUsername', 'reset'])
 
 const username = ref ("");
 const err = ref("");
@@ -28,6 +28,7 @@ function EnterName() {
             <input type="text" @keydown.enter="EnterName" placeholder="Username" v-model="username">
             <p class="error">{{ err }}</p>
             <button @click="EnterName">Enter Name</button>
+            <div id="close" @click="props.reset()">X</div>
         </div>
     </div>
 </template>

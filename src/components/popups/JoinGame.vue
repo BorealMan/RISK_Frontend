@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from 'vue'
 
-const props = defineProps(['setLobby'])
+const props = defineProps(['setLobby', 'reset'])
 
 const gamekey = ref ("");
 const err = ref("");
@@ -25,6 +25,7 @@ function EnterGame() {
             <input type="text" placeholder="Game Key" @keydown.enter="EnterGame" v-model="gamekey">
             <p class="error">{{ err }}</p>
             <button @click="EnterGame">Enter Game</button>
+            <div id="close" @click="props.reset()">X</div>
         </div>
     </div>
 </template>

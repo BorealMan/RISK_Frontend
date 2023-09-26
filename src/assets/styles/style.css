@@ -48,6 +48,11 @@
     transform: translate(-50%, -50%);
 }
 
+.prompt h1 {
+    max-width: 90%;
+    margin:auto;
+}
+
 .prompt input {
     margin-top: 1rem;
     padding: .1rem;
@@ -73,6 +78,22 @@
     cursor: pointer;
     background: grey;
     color: darkorange;
+}
+
+.prompt #close {
+    position: absolute;
+    top: 5%;
+    right: 15px;
+    font-weight: 700;
+    border: 3px solid transparent;
+    padding: .15rem .25rem;
+    transition: all 600ms ease;
+}
+
+.prompt #close:hover {
+    border-color: white;
+    border-radius: 50%;
+    cursor: pointer;
 }
 
 /* Utilities */

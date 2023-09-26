@@ -97,11 +97,11 @@ function CheckErrs(res) {
         </div>
 
         <Modal v-show="!isUsernameSet">
-            <Username :setUsername="setUsername" />
+            <Username :setUsername="setUsername" :reset="ResetVars"/>
         </Modal>
 
         <Modal v-show="isUsernameSet && !isLobbySet">
-            <JoinGame :setLobby="setLobby" />
+            <JoinGame :setLobby="setLobby" :reset="ResetVars" />
         </Modal>
         
     </div>
