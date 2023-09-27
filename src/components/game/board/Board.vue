@@ -26,7 +26,7 @@
          inkscape:version="0.46"
          width="100%"
          height="100vh"
-         viewBox="0 0 800 500"
+         viewBox="0 0 823.94049 557.204"
          version="1.0"
          sodipodi:docname="worldmap_wiki.svg"
          inkscape:output_extension="org.inkscape.output.svg.inkscape"
