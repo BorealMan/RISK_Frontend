@@ -6,7 +6,7 @@
    #game-board {
       display:flex;
       justify-content: center;
-      background: linear-gradient(180deg, rgba(179,177,219,1) 0%, rgba(61,59,186,.85) 50%, rgba(179,177,219,1) 100%);
+      background: linear-gradient(180deg, rgba(171,168,213,1) 0%, rgba(61,59,186,0.852000175070028) 50%, rgba(171,168,213,1) 100%);
    }
 </style>
 
@@ -24,8 +24,9 @@
          id="svg2"
          sodipodi:version="0.32"
          inkscape:version="0.46"
-         width="749.81909"
-         height="519.06781"
+         width="100%"
+         height="100vh"
+         viewBox="0 0 800 500"
          version="1.0"
          sodipodi:docname="worldmap_wiki.svg"
          inkscape:output_extension="org.inkscape.output.svg.inkscape"
