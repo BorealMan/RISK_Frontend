@@ -1,9 +1,9 @@
 <script setup>
-
+import Board from './board/Board.vue'
 </script>
 
 <template>
-    <h1>I am the game</h1>
+    <Board />
 </template>
 
 <style scoped>
