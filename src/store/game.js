@@ -3,7 +3,7 @@ import socket from './socket.js'
 
 export const GameStore = defineStore("GameStore", {
     state: () => ({
-        GAME: {},
+        Game: {},
         PlayerID: undefined,
         socket: socket,
     }),
