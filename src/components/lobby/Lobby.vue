@@ -81,14 +81,9 @@ function BeginGame(){
 }
 
 .buttons {
-        padding: 3rem;
-        border-radius: 10px;
-        width: max(400px, 20%);
-        position:absolute;
-        z-index: 20;
-        top:85%;
-        left:50%;
-        transform: translate(-50%, -50%);
+        grid-area: buttons;
+        width: 50%;
+        align-self: center;
     }
 
     .button {
