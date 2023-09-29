@@ -45,7 +45,7 @@ const playerColors = {
     flex-wrap: wrap;
     justify-content: space-between;
     align-items: center;
-    padding: 0em 2em;
+    padding: 0 1em 0 0 ;
     gap: 10%;
 }
 

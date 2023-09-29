@@ -21,12 +21,18 @@ export const GameStore = defineStore("GameStore", {
         },
         // gameid, playerid
         LeaveGame() {
-            this.socket.emit('leavegame', Game.game_id, PlayerID);
+            this.socket.emit('leavegame', this.Game.game_id, this.PlayerID);
         },
         // gameid, playerid, message
-        SendMessage(gameid, playerid, message) {
-            this.socket.emit('message', gameid, playerid, message)
+        SendMessage(message) {
+            this.socket.emit('message', this.Game.game_id, this.PlayerID, message)
         },
+        StartGame() {
+            this.socket.emit('startgame', this.Game.game_id)
+        },
+        LeaveGame() {
+        
+        }
     }
 })
 

@@ -14,7 +14,7 @@ const { Game, PlayerID } = storeToRefs(gamestore)
 const messages = ref([]);
 
 function addMessage(message) {
-    gamestore.SendMessage(Game.value.game_id, PlayerID.value, message);
+    gamestore.SendMessage(message);
 }
 
 gamestore.socket.on('message', (res) => {

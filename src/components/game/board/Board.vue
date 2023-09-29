@@ -8,6 +8,10 @@
       justify-content: center;
       background: linear-gradient(180deg, rgba(171,168,213,1) 0%, rgba(61,59,186,0.852000175070028) 50%, rgba(171,168,213,1) 100%);
    }
+
+   #tspan10513 {
+      user-select: none;  
+   }
 </style>
 
 <template>

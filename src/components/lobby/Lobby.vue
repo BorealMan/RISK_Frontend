@@ -8,25 +8,39 @@ import PlayersLobby from '../players/PlayersLobby.vue';
 import Chat from "../chat/Chat.vue"
 
 const gamestore = GameStore()
-const { Game } = storeToRefs(gamestore)
+const { Game, PlayerID } = storeToRefs(gamestore)
 
 const players = ref(Game.value.players);
 const err = ref(undefined);
 
 gamestore.socket.on('playerjoined', (res) => {
-    console.log(`Lobby - ${JSON.stringify(res.game.players)}`);
-    gamestore.Game = res.game;
-    players.value = res.game.players
+    console.log(`Lobby - ${JSON.stringify(res.players)}`);
+    gamestore.Game.players = res.players
+    players.value = res.players
 })
 
 const MAX_PLAYERS = 6;
 
-function BeginGame(){
-    if (players.length-1 < 3){
-        err.value = "You need at Least 3 Players to start"
+function StartGame(){
+    if (players.length < 3){
+        err.value = "You Need At Least 3 Players To Start"
+        return
     }
-    
+    if (!players.value[PlayerID.value].party_leader) {
+        err.value = "You Must Be Party Leader To Start The Game"   
+        return
+    }
+    gamestore.StartGame();
 }
+
+gamestore.socket.on('startgame', (res) => {
+    console.log(`startgame res: ${res.game_state}`)
+    if (res.err != undefined) {
+        err.value = res.err;
+        return;
+    }
+    gamestore.Game.game_state = res.game_state;
+})
 
 </script>
 
@@ -34,16 +48,15 @@ function BeginGame(){
     <div class="lobby-wrapper">
         <div class="logo">
             <h1>RISK ONLINE</h1>
-            <h1>{{ gamestore.Game.game_id }}</h1>
         </div>
         <div class="lobby-content">
-            <PlayersLobby :players="players" :emptyslots="MAX_PLAYERS - players.length" :gameID="gamestore.Game.game_id" />
+            <PlayersLobby :players="Game.players" :emptyslots="MAX_PLAYERS - players.length" :gameID="gamestore.Game.game_id" />
             <Chat :players="players" />
         </div>
-        <div class="buttons">
-            <div class="button" @click="BeginGame">Begin Game</div>
+        <div class="buttons" v-if="players[PlayerID].party_leader && players.length >= 3" >
+            <div class="button" @click="StartGame">Start Game</div>
+            <p class="error">{{ err }}</p>
         </div>
-        <p class="error">{{ err }}</p>
     </div>
 </template>
 
@@ -63,6 +76,7 @@ function BeginGame(){
 }
 
 .logo {
+    margin-top: 1em;
     grid-area: logo;
     font-size: 1em;
     text-align: center;
@@ -82,24 +96,22 @@ function BeginGame(){
 
 .buttons {
         grid-area: buttons;
-        width: 50%;
-        align-self: center;
     }
 
-    .button {
-        padding: 2rem;
-        border-radius:5px;
-        background: darkgrey;
-        margin:1rem 0;
-        text-align: center;
-        font-size: 1.5rem;
-        font-weight:700;
-        transition: all 600ms ease;
-    }
+.button {
+    padding: 2rem;
+    border-radius:5px;
+    background: rgba(139, 0, 0, 1);
+    margin:1rem 0;
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight:700;
+    transition: all 600ms ease;
+}
 
-    .button:hover {
-        background: grey;
-        cursor: pointer;
-        color:rgb(25, 241, 25);
-    }
+.button:hover {
+    background: rgba(110, 0, 0, 1);
+    cursor: pointer;
+    color: rgb(230, 230, 230);
+}
 </style>

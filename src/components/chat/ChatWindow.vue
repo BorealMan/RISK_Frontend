@@ -16,8 +16,8 @@ const playerColors = {
 <template>
     <div class="chat-content">
         <p class="message" v-for="(msg, index) in messages" :key="index">
-            <b :style="{ 'color': playerColors[players[msg.playerid-1].color] }" 
-                id="username">{{ players[msg.playerid-1].username }}: 
+            <b :style="{ 'color': playerColors[players[msg.playerid].color] }" 
+                id="username">{{ players[msg.playerid].username }}: 
             </b>
             <span class="message-input">{{ msg.message }}</span>
         </p>

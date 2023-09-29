@@ -10,7 +10,6 @@ import { storeToRefs } from 'pinia';
 
 // Init State
 const gamestore = GameStore()
-// const { Game } = storeToRefs(gamestore)
 
 const err = ref(undefined);
 
