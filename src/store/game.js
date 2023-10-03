@@ -19,10 +19,6 @@ export const GameStore = defineStore("GameStore", {
         JoinGame(gameid, username) {
             this.socket.emit('joingame', gameid, username)
         },
-        // gameid, playerid
-        LeaveGame() {
-            this.socket.emit('leavegame', this.Game.game_id, this.PlayerID);
-        },
         // gameid, playerid, message
         SendMessage(message) {
             this.socket.emit('message', this.Game.game_id, this.PlayerID, message)
@@ -31,8 +27,8 @@ export const GameStore = defineStore("GameStore", {
             this.socket.emit('startgame', this.Game.game_id)
         },
         LeaveGame() {
-        
-        }
+            this.socket.emit('leavegame', this.Game.game_id, this.PlayerID);
+        },
     }
 })
 
