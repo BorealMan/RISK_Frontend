@@ -41,6 +41,11 @@ gamestore.socket.on('player_left', (res) => {
     console.log(`Player Left Updated Lobby - ${JSON.stringify(res.players)}`);
     gamestore.Game.players = res.players;
     players.value = res.players;
+    console.log(gamestore.PlayerID);
+    if (res.player_id < gamestore.PlayerID){
+        gamestore.PlayerID -= 1;
+        console.log(gamestore.PlayerID);
+    };
 });
 
 gamestore.socket.on('startgame', (res) => {

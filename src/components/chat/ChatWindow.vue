@@ -8,15 +8,24 @@ const playerColors = {
     'Green': 'rgba(0, 255, 0, 0.7)',
     'Yellow': 'rgba(255, 255, 0, 0.7)',
     'Purple': 'rgba(128, 0, 128, 0.7)',
-    'Orange': 'rgba(255, 165, 0, 0.7)'
+    'Orange': 'rgba(255, 165, 0, 0.7)',
 };
+
+const systemColor = 'white';
+
+
 
 </script>
 
 <template>
     <div class="chat-content">
         <p class="message" v-for="(msg, index) in messages" :key="index">
-            <b :style="{ 'color': playerColors[players[msg.playerid].color] }" 
+            <b v-if="msg.playerid < 0" 
+                :style="{ 'color': systemColor }" 
+                id="username"> System:  
+            </b>
+            <b v-else
+                :style="{ 'color': playerColors[players[msg.playerid].color] }" 
                 id="username">{{ players[msg.playerid].username }}: 
             </b>
             <span class="message-input">{{ msg.message }}</span>

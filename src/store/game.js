@@ -23,11 +23,17 @@ export const GameStore = defineStore("GameStore", {
         SendMessage(message) {
             this.socket.emit('message', this.Game.game_id, this.PlayerID, message)
         },
+        SystemMessage(message){
+            this.socket.emit('message', this.Game.game_id, -1, message)
+        },
         StartGame() {
             this.socket.emit('startgame', this.Game.game_id)
         },
         LeaveGame() {
+            this.SystemMessage(`${this.Game.players[this.PlayerID].username} has left the game.`);
             this.socket.emit('leavegame', this.Game.game_id, this.PlayerID);
+            this.Game = {};
+            this.PlayerID = undefined;
         },
     }
 })
