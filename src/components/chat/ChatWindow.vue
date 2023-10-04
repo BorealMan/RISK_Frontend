@@ -13,8 +13,6 @@ const playerColors = {
 
 const systemColor = 'white';
 
-
-
 </script>
 
 <template>

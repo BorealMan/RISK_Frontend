@@ -34,6 +34,7 @@ export const GameStore = defineStore("GameStore", {
             this.socket.emit('leavegame', this.Game.game_id, this.PlayerID);
             this.Game = {};
             this.PlayerID = undefined;
+            window.location.reload();
         },
     }
 })

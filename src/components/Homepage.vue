@@ -55,10 +55,11 @@ gamestore.socket.on('newgame', (res) => {
 })
 
 gamestore.socket.on('joingame', (res) => {
-    // console.log(`Homepage -- ${res}`)
+    console.log(`Homepage -- ${res}`)
     if (CheckErrs(res)) return;
     gamestore.Game = res.game;
     gamestore.PlayerID = res.player_id;
+    gamestore.SystemMessage(`${res.game.players[res.player_id].username} has joined the game.`);
 })
 
 // Util Functions
