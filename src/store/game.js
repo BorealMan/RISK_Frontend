@@ -32,6 +32,11 @@ export const GameStore = defineStore("GameStore", {
         LeaveGame() {
             this.SystemMessage(`${this.Game.players[this.PlayerID].username} has left the game.`);
             this.socket.emit('leavegame', this.Game.game_id, this.PlayerID);
+            // Announce New Party Leader If Leader Left And Lobby Isn't Empty
+            if (this.PlayerID == 0 && this.Game.players.length > 1) {
+                this.SystemMessage(`${this.Game.players[1].username} is the new leader!`)
+            }
+            // Reset Everything
             this.Game = {};
             this.PlayerID = undefined;
             window.location.reload();
