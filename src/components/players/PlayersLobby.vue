@@ -2,7 +2,9 @@
 import { useClipboard } from '@vueuse/core';
 
 const { players, emptyslots, gameID } = defineProps(['players', 'emptyslots', 'gameID']);
-const { text, copy, copied, isSupported } = useClipboard({ gameID })
+
+const inviteLink = document.URL + `?lobby=${gameID}`
+const { text, copy, copied, isSupported } = useClipboard({ inviteLink })
 
 const playerColors = {
     'Red': 'rgba(255, 0, 0, 0.7)',
@@ -31,7 +33,7 @@ const playerColors = {
         </div>
 
         <div class="player empty-slot" v-for="n in emptyslots" :key="n">
-            <button @click="copy(gameID)">
+            <button @click="copy(inviteLink)">
                 <span v-if="!copied">Invite Players</span>
                 <span v-else>Copied!</span>
             </button>

@@ -30,6 +30,7 @@ const setUsername = (username) => {
 
 const setLobby = (gamekey) => {
     lobbyKey.value = gamekey
+    isJoinGame.value = true;
     isLobbySet.value = true;
     isUsernameSet.value = false;
 }
@@ -79,6 +80,22 @@ function CheckErrs(res) {
     }
     return false;
 }
+
+// Check the URL For Game Key
+
+function autoJoinFromLobbyURL() {
+    const url = document.URL
+    const re_match = url.match(/\?lobby=.{36}/)
+    if (re_match) {
+        const key = re_match[0].replace('?lobby=', "")
+        setLobby(key)
+        // Reset URL To Default
+        const siteurl = url.match(/https{0,1}:\/\/127.0.0.1:\d{0,5}/)[0]
+        window.history.replaceState(null, '', siteurl)
+    }
+}
+
+autoJoinFromLobbyURL()
 
 </script>
 
