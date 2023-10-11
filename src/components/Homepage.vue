@@ -66,7 +66,7 @@ gamestore.socket.on('joingame', (res) => {
 // Util Functions
 
 function ResetVars() {
-    isUsernameSet.value = true 
+    isUsernameSet.value = true
     isLobbySet.value = true
     isJoinGame.value = false
     lobbyKey.value = ""
@@ -90,7 +90,7 @@ function autoJoinFromLobbyURL() {
         const key = re_match[0].replace('?lobby=', "")
         setLobby(key)
         // Reset URL To Default
-        const siteurl = url.match(/https{0,1}:\/\/127.0.0.1:\d{0,5}/)[0]
+        const siteurl = url.match(/https{0,1}:\/\/.*:\d{0,5}/)[0]
         window.history.replaceState(null, '', siteurl)
     }
 }
@@ -100,13 +100,13 @@ autoJoinFromLobbyURL()
 </script>
 
 <template>
-    <div class="container"> 
+    <div class="container">
 
         <div class="banner-bg">
             <div class="overlay"></div>
             <img src="/src/assets/images/fighter-jet.jpg" />
         </div>
-        
+
         <div class="buttons">
             <div class="button" @click="StartNewGame">Start A New Game</div>
             <div class="button" @click="JoinAGame">Join A Game</div>
@@ -114,67 +114,66 @@ autoJoinFromLobbyURL()
         </div>
 
         <Modal v-show="!isUsernameSet">
-            <Username :setUsername="setUsername" :reset="ResetVars"/>
+            <Username :setUsername="setUsername" :reset="ResetVars" />
         </Modal>
 
         <Modal v-show="isUsernameSet && !isLobbySet">
             <JoinGame :setLobby="setLobby" :reset="ResetVars" />
         </Modal>
-        
+
     </div>
 </template>
 
 <style scoped>
-    .buttons {
-        padding: 3rem;
-        border-radius: 10px;
-        width: max(400px, 20%);
-        position:absolute;
-        z-index: 20;
-        top:50%;
-        left:50%;
-        transform: translate(-50%, -50%);
-        background:rgb(48, 48, 48, .9);
-    }
+.buttons {
+    padding: 3rem;
+    border-radius: 10px;
+    width: max(400px, 20%);
+    position: absolute;
+    z-index: 20;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgb(48, 48, 48, .9);
+}
 
-    .button {
-        padding: 2rem;
-        border-radius:10px;
-        background: lightgrey;
-        margin:1rem 0;
-        text-align: center;
-        font-size: 1.5rem;
-        font-weight:700;
-        transition: all 600ms ease;
-    }
+.button {
+    padding: 2rem;
+    border-radius: 10px;
+    background: lightgrey;
+    margin: 1rem 0;
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: 700;
+    transition: all 600ms ease;
+}
 
-    .button:hover {
-        background: grey;
-        cursor: pointer;
-        color:rgb(25, 241, 25);
-    }
+.button:hover {
+    background: grey;
+    cursor: pointer;
+    color: rgb(25, 241, 25);
+}
 
-    .banner-bg {
-        display:block;
-        width:100%;
-        height:100%;
-    }
+.banner-bg {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
 
-    .banner-bg img {
-        display:block;
-        height:100%;
-        width:100%;
-        object-fit: cover;
-    }
+.banner-bg img {
+    display: block;
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+}
 
-    .banner-bg .overlay {
-        position:absolute;
-        z-index: 10;
-        left:0;
-        right:0;
-        top:0;
-        bottom:0;
-        background:rgb(48, 48, 48, .1);
-    }
-
+.banner-bg .overlay {
+    position: absolute;
+    z-index: 10;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background: rgb(48, 48, 48, .1);
+}
 </style>
