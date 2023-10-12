@@ -1,4 +1,12 @@
 <script setup>
+   import Territory from '../../../util/territory.js'
+
+   const hoverColor = 'red'
+
+   setTimeout( () => {
+      const Alaska = new Territory('alaska', hoverColor)
+      const NorthWest = new Territory('northwest_territory', hoverColor)
+   }, 10)
 
 </script>
 
