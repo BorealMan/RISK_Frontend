@@ -1,5 +1,5 @@
 <script setup>
-   import Territory from '../../../util/territory.js'
+   import Territory from '../../../controllers/territory.js'
 
    const hoverColor = 'red'
 
