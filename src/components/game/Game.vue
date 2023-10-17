@@ -5,6 +5,7 @@ import GameStore from '../../store/game.js'
 import { storeToRefs } from 'pinia';
 import Board from './board/Board.vue'
 import Players from '../players/Players.vue';
+import TurnController from './turncontroller/TurnController.vue';
 import Chat from '../chat/Chat.vue';
 
 
@@ -41,6 +42,7 @@ const toggleChat = () => {
         <transition name="slide">
             <Chat v-if="isChatVisible" :players="players" class="chat" />
         </transition>
+        <TurnController :players="players" />
     </div>
 </template>
 
