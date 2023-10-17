@@ -1,11 +1,51 @@
 <script setup>
-   import Territory from '../../../controllers/territory.js'
+   import Territory from '../../../util/territory.js'
 
    const hoverColor = 'red'
 
    setTimeout( () => {
-      const Alaska = new Territory('alaska', hoverColor)
-      const NorthWest = new Territory('northwest_territory', hoverColor)
+      const Alaska = new Territory('alaska', hoverColor) //1
+      const NorthWest = new Territory('northwest_territory', hoverColor) //2
+      const eastern_australia = new Territory('eastern australia', hoverColor) //3
+      const indonesia = new Territory('indonesia', hoverColor) //4
+      const new_guinea = new Territory('new guinea', hoverColor) //5
+      const ontario = new Territory('ontario', hoverColor) //6
+      const venezuela = new Territory('venezuela', hoverColor) //7
+      const madagascar = new Territory('madagascar', hoverColor) //8
+      const north_africa = new Territory('north africa', hoverColor) //9
+      const greenland = new Territory('greenland', hoverColor) //10
+      const iceland = new Territory('iceland', hoverColor) //11
+      const great_britain = new Territory('Great Britain', hoverColor) //12
+      const scandinavia = new Territory('Scandinavia', hoverColor) //13
+      const japan = new Territory('Japan', hoverColor) //14
+      const yakursk = new Territory('Yakursk', hoverColor) //15
+      const kamchatka = new Territory('Kamchatka', hoverColor) //16
+      const siberia = new Territory('Siberia', hoverColor) //17
+      const ural = new Territory('ural', hoverColor) //18
+      const afghanistan = new Territory('Afghanistan', hoverColor) //19
+      const middle_east = new Territory('Middle East', hoverColor) //20
+      const india = new Territory('India', hoverColor) //21
+      const siam = new Territory('Siam', hoverColor) //22
+      const china = new Territory('China', hoverColor) //23
+      const mongolia = new Territory('Mongolia', hoverColor) //24
+      const irkutsk = new Territory('Irkutsk', hoverColor) //25
+      const ukraine = new Territory('Ukraine', hoverColor) //26
+      const southern_europe = new Territory('Southern Europe', hoverColor) //27
+      const western_europe = new Territory('Western Europe', hoverColor) //28
+      const northern_europe = new Territory('Northern Europe', hoverColor) //29
+      const egypt = new Territory('egypt', hoverColor) //30
+      const east_africa = new Territory('East_Africa', hoverColor) //31
+      const congo = new Territory('Congo', hoverColor) //32
+      const south_africa = new Territory('South_Africa', hoverColor) //33
+      const brazil = new Territory('Brazil', hoverColor) //34
+      const argentina = new Territory('argentina', hoverColor) //35
+      const eastern_united_states = new Territory('Eastern_United_States', hoverColor) //36
+      const western_united_states = new Territory('Western_United_States', hoverColor) //37
+      const quebec = new Territory('Quebec', hoverColor) //38
+      const central_america = new Territory('Central_America', hoverColor) //39
+      const peru = new Territory('Peru', hoverColor) //40
+      const western_australia = new Territory('Western_Australia', hoverColor) //41
+      const alberta = new Territory('Alberta', hoverColor) //42
    }, 10)
 
 </script>
