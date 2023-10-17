@@ -65,7 +65,7 @@ const playerColors = {
     border-top-right-radius: 10px;
     border-bottom-right-radius: 10px;
     border-left: none;
-    width: 355px;
+    width: 250px;
     height: 80px;
     padding: 10px 50px;
 }
