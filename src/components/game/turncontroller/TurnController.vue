@@ -25,6 +25,8 @@
         transform: translate(-50%, -50%);
         padding: 5em 20em 0em 0em;
         background-color: grey;
+        border-radius: 10px;
+        user-select:none;
     }
     .player{
         position: absolute;
