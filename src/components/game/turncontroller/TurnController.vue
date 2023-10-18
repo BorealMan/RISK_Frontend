@@ -1,10 +1,11 @@
 <script setup>
-    const { players } = defineProps(['players']);
+
+    const { players, playerColor } = defineProps(['players', 'playerColor']);
 
 </script>
 
 <template>
-    <div class="turncontroller">
+    <div class="turncontroller" :style="{ backgroundColor: playerColor}">
         <div class="player">
             <p>player</p>
         </div>

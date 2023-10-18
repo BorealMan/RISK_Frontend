@@ -1,7 +1,7 @@
 <script setup>
    import Territory from '../../../controllers/territory.js'
 
-   const hoverColor = 'purple'
+   const hoverColor = 'red'
 
    setTimeout( () => {
       const Alaska = new Territory('alaska', hoverColor)

@@ -3,13 +3,13 @@ import ChatWindow from './ChatWindow.vue';
 import ChatInput from './ChatInput.vue';
 import { ref } from 'vue';
 
-const { players } = defineProps(['players']);
+const { players, theme } = defineProps(['players', 'theme']);
 
 import GameStore from '../../store/game.js'
-import { storeToRefs } from 'pinia';
 
 const gamestore = GameStore()
-const { Game, PlayerID } = storeToRefs(gamestore)
+
+const themeColor = theme != undefined ? theme : "dark" 
 
 const messages = ref([]);
 
@@ -25,7 +25,7 @@ gamestore.socket.on('message', (res) => {
 
 <template>
     <div class="game-chat">
-        <ChatWindow :messages="messages" :players="players" />
+        <ChatWindow :messages="messages" :players="players" :theme=themeColor />
         <ChatInput @send-message="addMessage" />
     </div>
 </template>

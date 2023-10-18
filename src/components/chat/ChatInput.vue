@@ -1,6 +1,8 @@
 <script setup>
 import { ref } from 'vue';
 
+const { theme } = defineProps(['theme']);
+
 const message = ref('')
 
 const emit = defineEmits();
@@ -15,7 +17,7 @@ function sendMessage() {
 
 <template>
     <div class="input-container">
-        <input type="text" v-model="message" @keydown.enter="sendMessage" placeholder="Type your message....">
+        <input :class="theme" type="text" v-model="message" @keydown.enter="sendMessage" placeholder="Type your message....">
     </div>
 </template>
 
@@ -26,7 +28,7 @@ input {
     width: 100%;
     border: none;
     background: none;
-    color: inherit;
+    color: whitesmoke;
 }
 
 input:focus {
@@ -34,4 +36,5 @@ input:focus {
     border-top: 1px solid black;
     background-color: rgba(0, 0, 0, 0.1);
 }
+
 </style>

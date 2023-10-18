@@ -10,7 +10,7 @@ import Chat from '../chat/Chat.vue';
 
 
 const gamestore = GameStore()
-const { Game } = storeToRefs(gamestore)
+const { Game, PlayerID } = storeToRefs(gamestore)
 const players = ref(Game.value.players);
 
 const isChatVisible = ref(true);
@@ -40,9 +40,10 @@ const toggleChat = () => {
         <Board />
         <Players :players="players" class="players" />
         <transition name="slide">
-            <Chat v-if="isChatVisible" :players="players" class="chat" />
+            <Chat v-if="isChatVisible" :players="players" class="chat" :theme="'light'" />
         </transition>
-        <TurnController :players="players" />
+        <!-- <TurnController :players="players" :playerColor="players[PlayerID].color" /> -->
+        <TurnController :players="players" :playerColor="players[Game.current_player_turn].color" />
     </div>
 </template>
 
