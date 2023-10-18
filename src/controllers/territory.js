@@ -1,5 +1,5 @@
 /* 
-    Controller Class For Event Listeners
+    Controller Class For Territory Event Listeners
 */
 export class Territory {
 
@@ -10,12 +10,14 @@ export class Territory {
 
     constructor(name, hoverColor='green') {
         this.name = name
+        this.hoverColor = hoverColor
+    }
+
+    Run() {
         this.element = document.getElementById(this.name)
         // Set Colors For Territories Here
         this.element.style.fill = this.defaultColor
         this.element.style.cursor = 'pointer'
-        this.hoverColor = hoverColor
-        // Add All The Event Listeners
         this.AddEventListeners()
     }
 

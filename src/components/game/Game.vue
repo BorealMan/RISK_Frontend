@@ -40,7 +40,8 @@ const toggleChat = () => {
         <Board />
         <Players :players="players" class="players" />
         <transition name="slide">
-            <Chat v-if="isChatVisible" :players="players" class="chat" :theme="'light'" />
+            <!-- <Chat v-if="isChatVisible" :players="players" class="chat" :theme="'light'" /> -->
+            <Chat v-show="isChatVisible" :players="players" class="chat" :theme="'light'" />
         </transition>
         <!-- <TurnController :players="players" :playerColor="players[PlayerID].color" /> -->
         <TurnController :players="players" :playerColor="players[Game.current_player_turn].color" />
