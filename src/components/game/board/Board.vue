@@ -1,12 +1,16 @@
 <script setup>
-   import Territories from '../../../controllers/territories.js'
+   // import Territories from '../../../controllers/territories.js'
+
+   import GameController from '../../../controllers/game.js';
 
    const hoverColor = 'red'
 
+   // Controls The SVG 
+   const GC = new GameController()
+   // Run The Game Controller
    setTimeout( () => {
-      Territories.forEach( t => {
-         t.Run()
-      })
+      GC.Run()
+      console.log(GC.Continents)
    }, 10)
 
 </script>
