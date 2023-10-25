@@ -6,6 +6,7 @@ import { storeToRefs } from 'pinia';
 import Board from './board/Board.vue'
 import Players from '../players/Players.vue';
 import TurnController from './turncontroller/TurnController.vue';
+import Timer from '../timer/timer.vue';
 import Chat from '../chat/Chat.vue';
 
 const update = 0
@@ -41,6 +42,7 @@ const toggleChat = () => {
         <div id="troop-icons"></div>
         <Board />
         <Players :players="players" class="players" />
+        <Timer :playerColor="players[Game.current_player_turn].color" />
         <transition name="slide">
             <!-- <Chat v-if="isChatVisible" :players="players" class="chat" :theme="'light'" /> -->
             <Chat v-show="isChatVisible" :players="players" class="chat" :theme="'light'" />
