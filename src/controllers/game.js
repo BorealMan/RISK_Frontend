@@ -8,6 +8,7 @@ export class GameController {
     constructor() {
         Object.assign(this.TerritoryControllers, Territories)
         Object.assign(this.ContinentControllers, Continents)
+        this.AddEventListeners()
     }
 
     Run() {
@@ -24,6 +25,14 @@ export class GameController {
     InitContinentControllers() {
         this.ContinentControllers.forEach( c => {
             c.Run()
+        })
+    }
+
+    AddEventListeners() {
+        window.addEventListener('resize', () => {
+            this.TerritoryControllers.forEach( t => {
+                t.Update()
+            })
         })
     }
 
