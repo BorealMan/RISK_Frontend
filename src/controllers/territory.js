@@ -8,7 +8,7 @@ export class Territory {
     color = 'floralwhite'
     hoverColor = ""
 
-    constructor(name, offset_x=0, offset_y=0) {
+    constructor(name, offset_x = 0, offset_y = 0) {
         this.name = name
         this.hoverColor = "red"
 
@@ -22,7 +22,7 @@ export class Territory {
         this.element.style.fill = this.color
         this.element.style.cursor = 'pointer'
         this.AddEventListeners()
-        this.DrawTroopIcon(1    )
+        this.DrawTroopIcon(1)
     }
 
     Update() {
@@ -70,27 +70,41 @@ export class Territory {
 
     GetCenter() {
         const cords = this.element.getBoundingClientRect()
-        this.center = {x: cords.x + cords.width/2, y: cords.y + cords.height/2}
+        this.center = { x: cords.x + cords.width / 2, y: cords.y + cords.height / 2 }
         this.center.x = this.center.x * (100 - this.offset_x) / 100
         this.center.y = this.center.y * (100 - this.offset_y) / 100
     }
 
-    DrawTroopIcon(troopCount=0) {
+    DrawTroopIcon(troopCount = 0) {
         // if (troopCount <= 0) return;
         this.GetCenter()
         this.RemoveTroopIcon()
+
+        const troopCounter = document.createElement("span");
+        troopCounter.innerText = troopCount.toString();
+        troopCounter.style.color = 'white';
+        troopCounter.style.fontWeight = 'bold';
+        troopCounter.style.webkitTextStrokeWidth = '1.3px';
+        troopCounter.style.webkitTextStrokeColor = 'black';
+
         const troopIcon = document.createElement("div")
-        troopIcon.innerText = troopCount.toString()
+        troopIcon.appendChild(troopCounter)
         troopIcon.id = `${this.name}-troopicon`
         // troopIcon.style.background = this.color
-        troopIcon.style.background = "black"
+        troopIcon.style.background = "purple"
+        troopIcon.style.border = "2px solid black"
         troopIcon.style.borderRadius = "50%"
         troopIcon.style.color = "white"
-        troopIcon.style.padding = ".1rem .3rem"
-        // troopIcon.style.padding = ".25rem"
+        troopIcon.style.height = "26px"
+        troopIcon.style.width = "26px"
+        troopIcon.style.display = "flex"
+        troopIcon.style.alignItems = "center"
+        troopIcon.style.justifyContent = "center"
         troopIcon.style.position = "absolute"
         troopIcon.style.left = `${this.center.x}px`
         troopIcon.style.top = `${this.center.y}px`
+        troopIcon.style.pointerEvents = "none";
+
         const troopIcons = document.getElementById("game-board")
         troopIcons.appendChild(troopIcon)
     }
@@ -98,7 +112,7 @@ export class Territory {
     RemoveTroopIcon() {
         try {
             document.getElementById(`${this.name}-troopicon`).remove()
-        } catch(err) {
+        } catch (err) {
 
         }
     }
