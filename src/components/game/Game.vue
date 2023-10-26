@@ -6,7 +6,7 @@ import { storeToRefs } from 'pinia';
 import Board from './board/Board.vue'
 import Players from '../players/Players.vue';
 import TurnController from './turncontroller/TurnController.vue';
-import Timer from '../timer/timer.vue';
+import Timer from './timer/timer.vue';
 import Chat from '../chat/Chat.vue';
 
 const update = 0
