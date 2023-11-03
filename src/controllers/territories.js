@@ -7,15 +7,15 @@ export const Territories = [
  new Territory('alberta'),
  new Territory('ontario'),
  new Territory('quebec'),
- new Territory('western_united_states'),
+ new Territory('western_united_states', 3, 3),
  new Territory('eastern_united_states'),
  new Territory('eastern_australia'),
- new Territory('central_america', 5.5, 5),
+ new Territory('central_america', 2.5, 5),
  new Territory('greenland'),
 //  South America
- new Territory('venezuela'),
+ new Territory('venezuela', 8, 3),
  new Territory('peru'),
- new Territory('brazil'),
+ new Territory('brazil', -5, 5),
  new Territory('argentina', 5, 5),
 // Europe
  new Territory('iceland'),
@@ -31,7 +31,7 @@ export const Territories = [
  new Territory('south_africa'),
  new Territory('egypt'),
  new Territory('east_africa'),
- new Territory('madagascar'),
+ new Territory('madagascar', 1.5),
 // Asia
  new Territory('ural'),
  new Territory('afghanistan'),

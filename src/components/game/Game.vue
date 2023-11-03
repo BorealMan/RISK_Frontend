@@ -1,6 +1,6 @@
 <script setup>
-
 import { ref } from 'vue'
+import GameController from '../../controllers/game.js';
 import GameStore from '../../store/game.js'
 import { storeToRefs } from 'pinia';
 import Board from './board/Board.vue'
@@ -8,8 +8,6 @@ import Players from '../players/Players.vue';
 import TurnController from './turncontroller/TurnController.vue';
 import Timer from './timer/Timer.vue';
 import Chat from '../chat/Chat.vue';
-
-const update = 0
 
 const gamestore = GameStore()
 const { Game, PlayerID } = storeToRefs(gamestore)
@@ -20,6 +18,17 @@ const isChatVisible = ref(true);
 const toggleChat = () => {
     isChatVisible.value = !isChatVisible.value;
 };
+
+// Game Controller - Controls SVG Board
+const GC = new GameController()
+// Run The Game Controller
+setTimeout( () => {
+   GC.Run()
+}, 80)
+
+// Listen For Events And Rerender Conditionally
+
+// Logic To Connect GameController With Game Data
 
 </script>
 
@@ -48,7 +57,7 @@ const toggleChat = () => {
             <Chat v-show="isChatVisible" :players="players" class="chat" :theme="'light'" />
         </transition>
         <!-- <TurnController :players="players" :playerColor="players[PlayerID].color" /> -->
-        <TurnController :players="players" :playerColor="players[Game.current_player_turn].color" />
+        <TurnController :playerColor="players[Game.current_player_turn].color" />
     </div>
 </template>
 

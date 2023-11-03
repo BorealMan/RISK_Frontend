@@ -1,17 +1,4 @@
 <script setup>
-   // import Territories from '../../../controllers/territories.js'
-
-   import GameController from '../../../controllers/game.js';
-
-   const hoverColor = 'red'
-
-   // Controls The SVG 
-   const GC = new GameController()
-   // Run The Game Controller
-   setTimeout( () => {
-      GC.Run()
-      console.log(GC.Continents)
-   }, 10)
 
 </script>
 
@@ -19,8 +6,6 @@
 #game-board {
    display: flex;
    justify-content: center;
-   /* Moved to Game.vue */
-   /* background: linear-gradient(180deg, rgba(171,168,213,1) 0%, rgba(61,59,186,0.852000175070028) 50%, rgba(171,168,213,1) 100%); */
 }
 
 #tspan10513 {

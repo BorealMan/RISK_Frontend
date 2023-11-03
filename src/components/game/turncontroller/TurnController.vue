@@ -1,6 +1,18 @@
 <script setup>
 
-    const { players, playerColor } = defineProps(['players', 'playerColor']);
+    const { playerColor } = defineProps(['playerColor']);
+
+    // Socket Functionalities To Send Events
+    /* 
+        Phases: 
+            Game Starting:
+                - Place Pieces
+            Game Started: 
+                - Draft
+                - Attack
+                - Reinforce
+    */
+    
 
 </script>
 

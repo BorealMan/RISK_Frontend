@@ -104,6 +104,7 @@ export class Territory {
         troopIcon.style.left = `${this.center.x}px`
         troopIcon.style.top = `${this.center.y}px`
         troopIcon.style.pointerEvents = "none";
+        troopIcon.style.userSelect = "none";
 
         const troopIcons = document.getElementById("game-board")
         troopIcons.appendChild(troopIcon)

@@ -55,6 +55,7 @@ const playerColors = {
     gap: .5em;
     width: fit-content;
     height: fit-content;
+    user-select:none;
 }
 
 .player-container {
