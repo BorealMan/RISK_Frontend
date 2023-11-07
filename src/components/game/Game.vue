@@ -8,6 +8,8 @@ import Players from '../players/Players.vue';
 import TurnController from './turncontroller/TurnController.vue';
 import Timer from './timer/Timer.vue';
 import Chat from '../chat/Chat.vue';
+import NextTurn from './nextturn/NextTurn.vue';
+import Modal from '../modal/Modal.vue';
 
 const gamestore = GameStore()
 const { Game, PlayerID } = storeToRefs(gamestore)
@@ -69,6 +71,9 @@ gamestore.socket.on('increment_timer', (res) => {
         </transition>
         <!-- <TurnController :players="players" :playerColor="players[PlayerID].color" /> -->
         <TurnController :playerColor="players[Game.current_player_turn].color" />
+        <Modal>
+            <NextTurn :player="players[Game.current_player_turn].username" :playerColor="players[Game.current_player_turn].color"/>
+        </Modal>
     </div>
 </template>
 
