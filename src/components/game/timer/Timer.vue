@@ -1,19 +1,21 @@
 <script setup>
-    const { playerColor } = defineProps(['playerColor']);
+    const { playerColor, percentFilled } = defineProps(['playerColor', 'percentFilled']);
 
-    const max_time = 90;
-    const time = 60;
 
-    function TimeCalc(){
-        const percentFilled = (100/max_time)*time;
-        let result = `${percentFilled}%`;
-        return result;
-    }
+    // function TimeCalc() {
+    //     // const percentFilled = (100/max_time)*60;
+    //     const percentFilled = (seconds/max_seconds)*60;
+    //     // const percentFilled = (seconds/max_seconds)*60;
+    //     let result = `${percentFilled}%`;
+
+    //     console.log(result)
+    //     return result;
+    // }
 </script>
 
 <template>
     <div class="timer" >
-        <div class="timeleft" @click="TimeCalc" :style="{ width: TimeCalc(), backgroundColor: playerColor }"></div>
+        <div class="timeleft" :style="{ width:percentFilled, backgroundColor: playerColor }"></div>
     </div>
 </template>
 

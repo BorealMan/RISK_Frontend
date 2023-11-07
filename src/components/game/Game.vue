@@ -13,22 +13,33 @@ const gamestore = GameStore()
 const { Game, PlayerID } = storeToRefs(gamestore)
 const players = ref(Game.value.players);
 
+// Chat Controls
 const isChatVisible = ref(true);
-
 const toggleChat = () => {
     isChatVisible.value = !isChatVisible.value;
 };
 
 // Game Controller - Controls SVG Board
 const GC = new GameController()
-// Run The Game Controller
+// Run The Game Controller After 80ms Delay
 setTimeout( () => {
    GC.Run()
 }, 80)
 
 // Listen For Events And Rerender Conditionally
+gamestore.socket.on('increment_turn', (res) => {
+    Game.value.current_player_turn = res.current_player_turn;
+})
+
+// Timer Functionality
+const percent_filled = ref("0%");
+gamestore.socket.on('increment_timer', (res) => {
+    const percent = (res.seconds/Game.value.player_turn_max_duration) * 100
+    percent_filled.value = `${percent}%`
+})
 
 // Logic To Connect GameController With Game Data
+
 
 </script>
 
@@ -51,7 +62,7 @@ setTimeout( () => {
         <div id="troop-icons"></div>
         <Board />
         <Players :players="players" class="players" />
-        <Timer :playerColor="players[Game.current_player_turn].color" />
+        <Timer :playerColor="players[Game.current_player_turn].color" :percentFilled="percent_filled"/>
         <transition name="slide">
             <!-- <Chat v-if="isChatVisible" :players="players" class="chat" :theme="'light'" /> -->
             <Chat v-show="isChatVisible" :players="players" class="chat" :theme="'light'" />
