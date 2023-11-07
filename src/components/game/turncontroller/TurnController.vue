@@ -84,7 +84,13 @@ const { playerColor } = defineProps(['playerColor']);
     color: white;
     font-weight: 900;
     text-transform: uppercase;
-    -webkit-text-stroke-width: 1.5px;
+    letter-spacing: 1.1px;
+    text-shadow:
+        -1px -1px 0 rgba(0, 0, 0, 0.5),
+        1px -1px 0 rgba(0, 0, 0, 0.5),
+        -1px 1px 0 rgba(0, 0, 0, 0.5),
+        1px 1px 0 rgba(0, 0, 0, 0.5);
+    -webkit-text-stroke-width: 1.3px;
     -webkit-text-stroke-color: black;
 }
 
@@ -122,8 +128,12 @@ const { playerColor } = defineProps(['playerColor']);
     color: white;
     cursor: pointer;
     border: 2px solid rgba(0, 0, 0, 0.8);
-
+    text-shadow:
+        -1px -1px 0 rgba(0, 0, 0, 0.5),
+        1px -1px 0 rgba(0, 0, 0, 0.5),
+        -1px 1px 0 rgba(0, 0, 0, 0.5),
+        1px 1px 0 rgba(0, 0, 0, 0.5);
     -webkit-text-stroke-width: 1.3px;
-    -webkit-text-stroke-color: black;
+    -webkit-text-stroke-color: rgba(0, 0, 0, 0.5);
 }
 </style>
