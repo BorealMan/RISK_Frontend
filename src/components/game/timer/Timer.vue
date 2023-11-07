@@ -1,16 +1,5 @@
 <script setup>
     const { playerColor, percentFilled } = defineProps(['playerColor', 'percentFilled']);
-
-
-    // function TimeCalc() {
-    //     // const percentFilled = (100/max_time)*60;
-    //     const percentFilled = (seconds/max_seconds)*60;
-    //     // const percentFilled = (seconds/max_seconds)*60;
-    //     let result = `${percentFilled}%`;
-
-    //     console.log(result)
-    //     return result;
-    // }
 </script>
 
 <template>
