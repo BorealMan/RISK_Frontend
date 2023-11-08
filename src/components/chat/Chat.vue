@@ -40,5 +40,6 @@ gamestore.socket.on('message', (res) => {
     border: 2px solid black;
     border-radius: 0.2em;
     background-color: rgba(0, 0, 0, 0.5);
+    user-select: none;
 }
 </style>

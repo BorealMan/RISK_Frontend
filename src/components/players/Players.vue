@@ -61,7 +61,7 @@ const playerColors = {
 .player-container {
     display: flex;
     border-left: none;
-    justify-content: center;
+    justify-content: right;
     align-items: center;
 }
 
@@ -112,5 +112,17 @@ svg {
 
 .tracker>span {
     font-weight: bold;
+}
+
+@media (max-width: 1600px) {
+    .container {
+        width: 15%;
+    }
+    .player-stats {
+        flex-direction: column;
+    }
+    .player-details h3 {
+        display:none;
+    }
 }
 </style>

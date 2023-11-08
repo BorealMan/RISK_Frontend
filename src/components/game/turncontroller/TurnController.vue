@@ -13,6 +13,9 @@ const { playerColor } = defineProps(['playerColor']);
             - Reinforce
 */
 
+function ClickNextTurn() {
+    console.log("Clicked")
+}
 
 </script>
 
@@ -29,7 +32,7 @@ const { playerColor } = defineProps(['playerColor']);
                 <div class="phase-pill"></div>
                 <div class="phase-pill"></div>
             </div>
-            <div class="turn-button" :style="{ backgroundColor: playerColor }">
+            <div class="turn-button" :style="{ backgroundColor: playerColor }" @click="ClickNextTurn">
                 <!-- Check if player's turn -->
                 Next Phase
             </div>
@@ -43,12 +46,12 @@ const { playerColor } = defineProps(['playerColor']);
 <style scoped>
 .controller {
     position: absolute;
-    bottom: 0;
+    bottom: 20px;
     left: 50%;
     transform: translateX(-50%);
     display: flex;
     align-items: center;
-    margin-bottom: 1em;
+    user-select: none;
 }
 
 .icon-container {

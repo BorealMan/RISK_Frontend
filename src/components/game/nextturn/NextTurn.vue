@@ -1,104 +1,95 @@
 <script setup>
+import Modal from '../../modal/Modal.vue';
 
-const { player, playerColor } = defineProps(['player', 'playerColor']);
-
+const { player, playerColor, show, newTroops } = defineProps(['player', 'playerColor', 'show', 'newTroops']);
 
 </script>
 
 <template>
-    <div class="namedisplay" :style="{ backgroundColor: playerColor }">
-        <div class="whosturn">
-            <p>It is {{ player }}'s Turn</p>
-        </div>
-    </div>
+    <Modal v-show="show">
+        <div class="next-turn-container">
 
-    <div class="trooprecieved" :style="{ backgroundColor: playerColor }">
-        <p>Recieved Troops</p>
-    </div>
-    <div class="holder">
-        <div class="troopnumholder" :style="{ borderColor: playerColor }"></div>
-        <div class="troopamount">
-            <h1>3</h1>
+            <div class="namedisplay" :style="{ backgroundColor: playerColor }">
+                    It is {{ player }}'s turn
+            </div>
+
+            <div class="holder">
+                <div class="trooprecieved" :style="{ backgroundColor: playerColor }">Recieved Troops</div>
+                <div class="troopnumber" :style="{ borderColor: playerColor }">5</div>
+                <div class="trooptotal">
+                    Total troops<br>
+                    <p>Troops Awarded for occupying <b>x territories</b></p>
+                </div>
+            </div>
         </div>
-        <div class="trooptotaltext">
-            <p>Troop Total</p>
-        </div>
-        <div class="numofterritories">
-            <p>Troops Awarded for occupying x territories</p>
-        </div>
-    </div>
+    </Modal>
 </template>
 
 <style scoped>
     .namedisplay{
         position: absolute;
-        padding: 2em 14em 2em 14em;
+        padding: .5rem 0;
+        width: min(600px, 50%);
+        text-align: center;
         color: white;
-        transform: translate(-50%, -50%);
-        top: 5%;
+        transform: translateX(-50%);
+        top: 12px;
         left: 50%;
         border-radius: 0px 0px 25px 25px;
         user-select:none;
-    }
-    .whosturn{
-        position: absolute;
-        font-size: 21px;
-        transform: translate(-50%, -50%);
-        user-select:none;
+        font-size:2rem;
+        font-weight: 900;
     }
     .trooprecieved{
-        position: absolute;
-        padding: 1em 10em 1em 10em;
-        color: white;
+        position:absolute;
+        top:0;
+        right:0;
+        left:0;
+        padding: 1rem 0;
         border-radius: 25px 25px 0px 0px;
-        font-size: 20px;
-        transform: translate(-50%, -50%);
-        left: 50%;
-        top: 30%;
+        font-size:2rem;
+        font-weight: 900;
         user-select:none;
+        text-align: center;
     }
     .holder{
         position: absolute;
-        background-color: grey;
+        background-color: rgb(0, 0, 0, .6);
         color: white;
-        opacity: 0.9;
-        padding: 10em 17.1em 10em 17.1em;
-        border-radius: 0px 0px 25px 25px;
+        /* padding: 10em 17.1em 10em 17.1em; */
+        width: min(50%, 600px);
+        /* height:30vh; */
+        height: 350px;
+        border-radius: 25px 25px 25px 25px;
         transform: translate(-50%, -50%);
         left: 50%;
-        top: 59.7%;
+        top: max(40%, 300px);
         user-select:none;
     }
-    .troopamount{
+    .trooptotal {
         position: absolute;
-        font-size: 20px;
-        top: 25%;
+        font-size: 1.2rem;
+        top: 80%;
+        left:50%;
+        width:100%;
+        text-align:center;
         transform: translate(-50%, -50%);
         user-select:none;
+        font-size: 1.1rem;
     }
-    .trooptotaltext{
-        position: absolute;
-        font-size: 20px;
-        top: 50%;
-        transform: translate(-50%, -50%);
-        user-select:none;
+    .trooptotal p {
+        font-size: 1.5rem;
     }
-    .troopnumholder{
+    .troopnumber {
         position: absolute;
-        top: 25%;
+        top: 47%;
         left: 50%;
-        border-radius: 100px;
-        border-width: 5px;
+        border-radius: 50%;
+        border-width: 15px;
         border-style: solid;
-        padding: 3em;
+        padding: 20px 40px;
         transform: translate(-50%, -50%);
-    }
-    .numofterritories{
-        position: absolute;
-        font-size: 20px;
-        text-align: center;
-        top: 70%;
-        transform: translate(-50%, -50%);
-        user-select:none;
+        font-size: 3rem;
+        font-weight:800;
     }
 </style>

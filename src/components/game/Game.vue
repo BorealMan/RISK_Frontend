@@ -9,7 +9,7 @@ import TurnController from './turncontroller/TurnController.vue';
 import Timer from './timer/Timer.vue';
 import Chat from '../chat/Chat.vue';
 import NextTurn from './nextturn/NextTurn.vue';
-import Modal from '../modal/Modal.vue';
+
 
 const gamestore = GameStore()
 const { Game, PlayerID } = storeToRefs(gamestore)
@@ -29,8 +29,13 @@ setTimeout( () => {
 }, 80)
 
 // Listen For Events And Rerender Conditionally
+const showNextTurnModal = ref(false);
 gamestore.socket.on('increment_turn', (res) => {
     Game.value.current_player_turn = res.current_player_turn;
+    showNextTurnModal.value = true;
+    setTimeout( () => {
+        showNextTurnModal.value = false;
+    }, 1500)
 })
 
 // Timer Functionality
@@ -71,9 +76,8 @@ gamestore.socket.on('increment_timer', (res) => {
         </transition>
         <!-- <TurnController :players="players" :playerColor="players[PlayerID].color" /> -->
         <TurnController :playerColor="players[Game.current_player_turn].color" />
-        <Modal>
-            <NextTurn :player="players[Game.current_player_turn].username" :playerColor="players[Game.current_player_turn].color"/>
-        </Modal>
+
+        <NextTurn :player="players[Game.current_player_turn].username" :playerColor="players[Game.current_player_turn].color" :show="showNextTurnModal"/>
     </div>
 </template>
 
