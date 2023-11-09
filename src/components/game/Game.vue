@@ -9,6 +9,7 @@ import TurnController from './turncontroller/TurnController.vue';
 import Timer from './timer/Timer.vue';
 import Chat from '../chat/Chat.vue';
 import NextTurn from './nextturn/NextTurn.vue';
+import TroopSelector from './popups/TroopSelector.vue';
 
 
 const gamestore = GameStore()
@@ -24,8 +25,8 @@ const toggleChat = () => {
 // Game Controller - Controls SVG Board
 const GC = new GameController()
 // Run The Game Controller After 80ms Delay
-setTimeout( () => {
-   GC.Run()
+setTimeout(() => {
+    GC.Run()
 }, 80)
 
 // Listen For Events And Rerender Conditionally
@@ -33,7 +34,7 @@ const showNextTurnModal = ref(false);
 gamestore.socket.on('increment_turn', (res) => {
     Game.value.current_player_turn = res.current_player_turn;
     showNextTurnModal.value = true;
-    setTimeout( () => {
+    setTimeout(() => {
         showNextTurnModal.value = false;
     }, 1500)
 })
@@ -41,7 +42,7 @@ gamestore.socket.on('increment_turn', (res) => {
 // Timer Functionality
 const percent_filled = ref("0%");
 gamestore.socket.on('increment_timer', (res) => {
-    const percent = (res.seconds/Game.value.player_turn_max_duration) * 100
+    const percent = (res.seconds / Game.value.player_turn_max_duration) * 100
     percent_filled.value = `${percent}%`
 })
 
@@ -69,15 +70,17 @@ gamestore.socket.on('increment_timer', (res) => {
         <div id="troop-icons"></div>
         <Board />
         <Players :players="players" class="players" />
-        <Timer :playerColor="players[Game.current_player_turn].color" :percentFilled="percent_filled"/>
+        <Timer :playerColor="players[Game.current_player_turn].color" :percentFilled="percent_filled" />
         <transition name="slide">
             <!-- <Chat v-if="isChatVisible" :players="players" class="chat" :theme="'light'" /> -->
             <Chat v-show="isChatVisible" :players="players" class="chat" :theme="'light'" />
         </transition>
         <!-- <TurnController :players="players" :playerColor="players[PlayerID].color" /> -->
         <TurnController :playerColor="players[Game.current_player_turn].color" />
+        <TroopSelector />
 
-        <NextTurn :player="players[Game.current_player_turn].username" :playerColor="players[Game.current_player_turn].color" :show="showNextTurnModal"/>
+        <NextTurn :player="players[Game.current_player_turn].username"
+            :playerColor="players[Game.current_player_turn].color" :show="showNextTurnModal" />
     </div>
 </template>
 
