@@ -19,6 +19,7 @@ export class Continent {
         this.defaultColor = color
         this.element.fill = this.defaultColor
     }
+
 }
 
 export default Continent

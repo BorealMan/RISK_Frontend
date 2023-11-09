@@ -5,13 +5,12 @@ export class Territory {
 
     element = undefined
     name = ""
-    color = 'floralwhite'
+    color = 'white'
     hoverColor = ""
+    troops = 0
 
     constructor(name, offset_x = 0, offset_y = 0) {
         this.name = name
-        this.hoverColor = "red"
-
         this.offset_x = offset_x
         this.offset_y = offset_y
     }
@@ -22,11 +21,11 @@ export class Territory {
         this.element.style.fill = this.color
         this.element.style.cursor = 'pointer'
         this.AddEventListeners()
-        this.DrawTroopIcon(1)
+        this.Update()
     }
 
     Update() {
-        this.DrawTroopIcon()
+        this.DrawTroopIcon(this.troops)
     }
 
     AddEventListeners() {
@@ -37,20 +36,14 @@ export class Territory {
 
     OnMouseOver() {
         this.element.addEventListener('mouseover', () => {
-            this.element.style.fill = this.hoverColor;
-            this.element.style.transition = '600ms ease all'
-            this.element.style.filter = 'none'
-            this.element.style.strokeWidth = '2.5px';
-            this.element.style.strokeOpacity = '2';
+            this.element.style.filter = "invert(10%)"
         })
     }
 
     OnMouseOut() {
         this.element.addEventListener('mouseout', () => {
-            this.element.style.fill = this.color;
             this.element.style.filter = 'url(#filter12951)';
-            this.element.style.strokeWidth = '1.2px';
-            this.element.style.strokeOpacity = '.58527';
+            this.element.style.transition = '600ms ease all'
         })
     }
 
@@ -84,6 +77,7 @@ export class Territory {
         troopCounter.innerText = troopCount.toString();
         troopCounter.style.color = 'white';
         troopCounter.style.fontWeight = 'bold';
+        troopCounter.style.fontSize = "1.25rem"
         troopCounter.style.webkitTextStrokeWidth = '1.3px';
         troopCounter.style.webkitTextStrokeColor = 'black';
 

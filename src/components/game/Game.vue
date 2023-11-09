@@ -47,7 +47,18 @@ gamestore.socket.on('increment_timer', (res) => {
 })
 
 // Logic To Connect GameController With Game Data
-
+gamestore.socket.on('update_territories', (res) => {
+    Game.value.players = res.players
+    Game.value.territories = res.territories
+    Game.value.contients = res.contients
+    GC.TerritoryControllers.forEach( (t, i) => {
+        const territoryOwner = Game.value.territories[i].player
+        const newColor = Game.value.players[territoryOwner].color
+        // Assign New Values
+        t.color = newColor
+        t.troops = Game.value.territories[i].troops
+    })
+})
 
 </script>
 
@@ -77,7 +88,7 @@ gamestore.socket.on('increment_timer', (res) => {
         </transition>
         <!-- <TurnController :players="players" :playerColor="players[PlayerID].color" /> -->
         <TurnController :playerColor="players[Game.current_player_turn].color" />
-        <TroopSelector />
+        <!-- <TroopSelector /> -->
 
         <NextTurn :player="players[Game.current_player_turn].username"
             :playerColor="players[Game.current_player_turn].color" :show="showNextTurnModal" />

@@ -26,6 +26,7 @@ export class GameController {
         this.ContinentControllers.forEach( c => {
             c.Run()
         })
+        this.ResetContinentFills()
     }
 
     AddEventListeners() {
@@ -33,6 +34,19 @@ export class GameController {
             this.TerritoryControllers.forEach( t => {
                 t.Update()
             })
+        })
+    }
+
+    ResetContinentFills() {
+        const layer = document.getElementById('layer2')
+        let paths = layer.childNodes
+        paths.forEach( path => {
+            if (path.tagName === 'g') {
+                let spath = path.childNodes
+                spath[0].style.fill = 'none' 
+            } else {
+                path.style.fill = "none";
+            }
         })
     }
 
