@@ -10,6 +10,7 @@ import Timer from './timer/Timer.vue';
 import Chat from '../chat/Chat.vue';
 import NextTurn from './nextturn/NextTurn.vue';
 import TroopSelector from './popups/TroopSelector.vue';
+import playerColors from '../colors/player_colors.js'
 
 
 const gamestore = GameStore()
@@ -49,16 +50,24 @@ gamestore.socket.on('increment_timer', (res) => {
 // Logic To Connect GameController With Game Data
 gamestore.socket.on('update_territories', (res) => {
     Game.value.players = res.players
+    players.value = res.players
     Game.value.territories = res.territories
     Game.value.contients = res.contients
     GC.TerritoryControllers.forEach( (t, i) => {
         const territoryOwner = Game.value.territories[i].player
         const newColor = Game.value.players[territoryOwner].color
         // Assign New Values
-        t.color = newColor
+        t.color = playerColors[newColor]
+        // t.color = newColor
         t.troops = Game.value.territories[i].troops
     })
+    console.log(Game)
 })
+
+// Select Output
+function ProcessSelectorOutput(value) {
+    // If Current Player Turn State Do Something
+}
 
 </script>
 
@@ -81,17 +90,16 @@ gamestore.socket.on('update_territories', (res) => {
         <div id="troop-icons"></div>
         <Board />
         <Players :players="players" class="players" />
-        <Timer :playerColor="players[Game.current_player_turn].color" :percentFilled="percent_filled" />
+        <Timer :playerColor="playerColors[players[Game.current_player_turn].color]" :percentFilled="percent_filled" />
         <transition name="slide">
             <!-- <Chat v-if="isChatVisible" :players="players" class="chat" :theme="'light'" /> -->
             <Chat v-show="isChatVisible" :players="players" class="chat" :theme="'light'" />
         </transition>
         <!-- <TurnController :players="players" :playerColor="players[PlayerID].color" /> -->
-        <TurnController :playerColor="players[Game.current_player_turn].color" />
+        <TurnController :playerColor="playerColors[players[Game.current_player_turn].color]" />
         <!-- <TroopSelector /> -->
 
-        <NextTurn :player="players[Game.current_player_turn].username"
-            :playerColor="players[Game.current_player_turn].color" :show="showNextTurnModal" />
+        <NextTurn :player="players[Game.current_player_turn]" :playerColor="playerColors[players[Game.current_player_turn].color]" :show="showNextTurnModal" />
     </div>
 </template>
 

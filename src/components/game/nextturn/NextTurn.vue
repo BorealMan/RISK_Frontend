@@ -10,7 +10,7 @@ const { player, playerColor, show, newTroops } = defineProps(['player', 'playerC
         <div class="next-turn-container">
 
             <div class="namedisplay" :style="{ backgroundColor: playerColor }">
-                    It is {{ player }}'s turn
+                    It is {{ player.username }}'s turn
             </div>
 
             <div class="holder">
@@ -18,7 +18,7 @@ const { player, playerColor, show, newTroops } = defineProps(['player', 'playerC
                 <div class="troopnumber" :style="{ borderColor: playerColor }">5</div>
                 <div class="trooptotal">
                     Total troops<br>
-                    <p>Troops Awarded for occupying <b>x territories</b></p>
+                    <p>Troops Awarded for occupying <b>{{ player.territories }} territories</b></p>
                 </div>
             </div>
         </div>

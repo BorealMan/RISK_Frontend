@@ -2,25 +2,17 @@
 import { useClipboard } from '@vueuse/core';
 
 const { players, emptyslots, gameID } = defineProps(['players', 'emptyslots', 'gameID']);
+import { playerColorsTransparent } from '../colors/player_colors';
 
 const inviteLink = document.URL + `?lobby=${gameID}`
 const { text, copy, copied, isSupported } = useClipboard({ inviteLink })
-
-const playerColors = {
-    'Red': 'rgba(255, 0, 0, 0.7)',
-    'Blue': 'rgba(0, 0, 255, 0.7)',
-    'Green': 'rgba(0, 255, 0, 0.7)',
-    'Yellow': 'rgba(255, 255, 0, 0.7)',
-    'Purple': 'rgba(128, 0, 128, 0.7)',
-    'Orange': 'rgba(255, 165, 0, 0.7)'
-};
 
 </script>
 
 <template>
     <div class="lobby-players">
         <div class="player" v-for="(player, index) in players" :key="index"
-            :style="{ 'background-color': playerColors[player.color] }">
+            :style="{ 'background-color': playerColorsTransparent[player.color] }" >
             <div class="player-avatar">
                 <svg xmlns="http://www.w3.org/2000/svg" height="3em" viewBox="0 0 448 512">
                     <path

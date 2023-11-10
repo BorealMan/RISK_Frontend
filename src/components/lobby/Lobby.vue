@@ -14,7 +14,7 @@ const players = ref(Game.value.players);
 const err = ref(undefined);
 
 gamestore.socket.on('playerjoined', (res) => {
-    console.log(`Lobby - ${JSON.stringify(res.players)}`);
+    // console.log(`Lobby - ${JSON.stringify(res.players)}`);
     gamestore.Game.players = res.players
     players.value = res.players
 })
@@ -38,7 +38,7 @@ function LeaveGame() {
 };
 
 gamestore.socket.on('player_left', (res) => {
-    console.log(`Player Left Updated Lobby - ${JSON.stringify(res.players)}`);
+    // console.log(`Player Left Updated Lobby - ${JSON.stringify(res.players)}`);
     gamestore.Game.players = res.players;
     players.value = res.players;
     console.log(gamestore.PlayerID);
@@ -49,7 +49,7 @@ gamestore.socket.on('player_left', (res) => {
 });
 
 gamestore.socket.on('startgame', (res) => {
-    console.log(`startgame res: ${res.game_state}`)
+    // console.log(`startgame res: ${res.game_state}`)
     if (res.err != undefined) {
         err.value = res.err;
         return;
