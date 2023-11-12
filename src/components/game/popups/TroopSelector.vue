@@ -1,9 +1,58 @@
 <script setup>
-import { computed, ref } from 'vue';
+import { computed, ref, watch } from 'vue';
 
-// Temporary - will change
-const totalTroops = ref([1, 2, 3, 4, 5, 6, 7]);
-const visibleTroops = computed(() => totalTroops.value.slice(0, 5));
+
+const props = defineProps({
+    troopCount: Number
+});
+
+const totalTroops = ref([]);
+const selectedTroop = ref(null);
+const currentIndex = ref(0);
+
+watch(() => props.troopCount, (newCount) => {
+    totalTroops.value = Array.from({ length: newCount }, (_, i) => i + 1);
+    currentIndex.value = totalTroops.value.length - 1;
+    selectedTroop.value = totalTroops.value[currentIndex.value];
+}, { immediate: true });
+
+
+const visibleTroops = computed(() => {
+    const totalLength = totalTroops.value.length;
+    let startIndex = currentIndex.value - 2;
+    let endIndex = startIndex + 5;
+
+    if (startIndex < 0) {
+        startIndex = totalLength + startIndex;
+    }
+    if (endIndex > totalLength) {
+        endIndex -= totalLength;
+    }
+
+    let tempArray = [];
+    for (let i = 0; i < 5; i++) {
+        let index = (startIndex + i) % totalLength;
+        tempArray.push(totalTroops.value[index]);
+    }
+
+    return tempArray;
+});
+
+const selectTroop = (number) => {
+    selectedTroop.value = number;
+    currentIndex.value = totalTroops.value.indexOf(number);
+
+    if (currentIndex.value < 0) {
+        currentIndex.value = totalTroops.value.length + currentIndex.value;
+    }
+
+    console.log('Current Selection: ', number);
+};
+
+const confirmSelection = () => {
+    console.log('Troops Deployed: ', selectedTroop.value);
+    return selectedTroop.value;
+};
 
 </script>
 
@@ -21,12 +70,12 @@ const visibleTroops = computed(() => totalTroops.value.slice(0, 5));
         </div>
         <div class="slider-container">
             <div class="number-container" v-for="number in visibleTroops" :key="number">
-                <span class="troop-number">
+                <span class="troop-number" @click="() => selectTroop(number)">
                     {{ number }}
                 </span>
             </div>
         </div>
-        <div class="confirm button">
+        <div class="confirm button" @click="confirmSelection">
             <svg xmlns="http://www.w3.org/2000/svg" height="1em"
                 viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
                 <path
@@ -82,7 +131,7 @@ const visibleTroops = computed(() => totalTroops.value.slice(0, 5));
 
 .slider-container::after {
     right: 0;
-    background: linear-gradient(to left, rgba(0, 0, 0, 0.7), transparent);
+    background: linear-gradient(to left, black, transparent);
     border-radius: 0px 50px 50px 0px;
 }
 
@@ -106,6 +155,7 @@ const visibleTroops = computed(() => totalTroops.value.slice(0, 5));
         1px 1px 0 black;
     -webkit-text-stroke-width: 1.3px;
     -webkit-text-stroke-color: black;
+    cursor: pointer;
 }
 
 .button {

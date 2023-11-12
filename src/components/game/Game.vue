@@ -53,7 +53,7 @@ gamestore.socket.on('update_territories', (res) => {
     players.value = res.players
     Game.value.territories = res.territories
     Game.value.contients = res.contients
-    GC.TerritoryControllers.forEach( (t, i) => {
+    GC.TerritoryControllers.forEach((t, i) => {
         const territoryOwner = Game.value.territories[i].player
         const newColor = Game.value.players[territoryOwner].color
         // Assign New Values
@@ -97,9 +97,10 @@ function ProcessSelectorOutput(value) {
         </transition>
         <!-- <TurnController :players="players" :playerColor="players[PlayerID].color" /> -->
         <TurnController :playerColor="playerColors[players[Game.current_player_turn].color]" />
-        <!-- <TroopSelector /> -->
+        <TroopSelector :troopCount="10" />
 
-        <NextTurn :player="players[Game.current_player_turn]" :playerColor="playerColors[players[Game.current_player_turn].color]" :show="showNextTurnModal" />
+        <NextTurn :player="players[Game.current_player_turn]"
+            :playerColor="playerColors[players[Game.current_player_turn].color]" :show="showNextTurnModal" />
     </div>
 </template>
 
