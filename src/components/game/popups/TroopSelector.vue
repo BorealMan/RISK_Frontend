@@ -88,7 +88,7 @@ const confirmSelection = () => {
 <style scoped>
 .selector {
     position: absolute;
-    bottom: 200px;
+    bottom: 150px;
     left: 50%;
     transform: translateX(-50%);
     display: flex;
