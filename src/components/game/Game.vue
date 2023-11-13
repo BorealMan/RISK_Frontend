@@ -11,6 +11,7 @@ import Chat from '../chat/Chat.vue';
 import NextTurn from './nextturn/NextTurn.vue';
 import TroopSelector from './popups/TroopSelector.vue';
 import playerColors from '../colors/player_colors.js'
+import DraftInput from './popups/DraftInput.vue';
 
 
 const gamestore = GameStore()
@@ -97,7 +98,8 @@ function ProcessSelectorOutput(value) {
         </transition>
         <!-- <TurnController :players="players" :playerColor="players[PlayerID].color" /> -->
         <TurnController :playerColor="playerColors[players[Game.current_player_turn].color]" />
-        <TroopSelector :troopCount="10" />
+        <!-- <TroopSelector :troopCount="10" /> -->
+        <DraftInput :troopCount="10" />
 
         <NextTurn :player="players[Game.current_player_turn]"
             :playerColor="playerColors[players[Game.current_player_turn].color]" :show="showNextTurnModal" />
