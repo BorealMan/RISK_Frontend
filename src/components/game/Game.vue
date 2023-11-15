@@ -25,6 +25,29 @@ const toggleChat = () => {
 
 // Game Controller - Controls SVG Board
 const GC = new GameController()
+
+// Game Controller Call Backs - PUT GAME LOGIC HERE
+const Territory_MouseOverCallBack = (index) => {
+
+}
+
+const Territory_MouseOutCallBack = (index) => {
+
+}
+
+const Territory_MouseClickCallBack = (index) => {
+    Game.value.territories[index].troops = 10
+    GC.TerritoryControllers[index].troops = 10
+    GC.TerritoryControllers[index].Update()
+}
+
+// Set Call Backs To Top Level From Game Controller
+GC.Territory_MouseOverCallBack = Territory_MouseOverCallBack
+GC.Territory_MouseOutCallBack = Territory_MouseOutCallBack
+GC.Territory_MouseClickCallBack = Territory_MouseClickCallBack
+// Must Be Called After Setting Callbacks
+GC.SetTerritoryIndexes()
+
 // Run The Game Controller After 80ms Delay
 setTimeout(() => {
     GC.Run()
@@ -49,16 +72,17 @@ gamestore.socket.on('increment_timer', (res) => {
 
 // Logic To Connect GameController With Game Data
 gamestore.socket.on('update_territories', (res) => {
+    // Update State Values From Response
     Game.value.players = res.players
     players.value = res.players
     Game.value.territories = res.territories
     Game.value.contients = res.contients
+    // Update Game Controller - Screen
     GC.TerritoryControllers.forEach((t, i) => {
         const territoryOwner = Game.value.territories[i].player
         const newColor = Game.value.players[territoryOwner].color
         // Assign New Values
         t.color = playerColors[newColor]
-        // t.color = newColor
         t.troops = Game.value.territories[i].troops
     })
     console.log(Game)
@@ -92,12 +116,10 @@ function ProcessSelectorOutput(value) {
         <Players :players="players" class="players" />
         <Timer :playerColor="playerColors[players[Game.current_player_turn].color]" :percentFilled="percent_filled" />
         <transition name="slide">
-            <!-- <Chat v-if="isChatVisible" :players="players" class="chat" :theme="'light'" /> -->
             <Chat v-show="isChatVisible" :players="players" class="chat" :theme="'light'" />
         </transition>
-        <!-- <TurnController :players="players" :playerColor="players[PlayerID].color" /> -->
         <TurnController :playerColor="playerColors[players[Game.current_player_turn].color]" />
-        <DraftInput :troopCount="10" />
+        <!-- <DraftInput :troopCount="10" /> -->
 
         <NextTurn :player="players[Game.current_player_turn]"
             :playerColor="playerColors[players[Game.current_player_turn].color]" :show="showNextTurnModal" />

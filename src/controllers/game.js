@@ -5,9 +5,15 @@ export class GameController {
     TerritoryControllers = []
     ContinentControllers = []
 
+    // Call Backs
+    Territory_MouseOverCallBack = undefined
+    Territory_MouseOutCallBack = undefined
+    Territory_MouseClickCallBack = undefined
+
     constructor() {
         Object.assign(this.TerritoryControllers, Territories)
         Object.assign(this.ContinentControllers, Continents)
+        // this.SetTerritoryIndexes()
         this.AddEventListeners()
     }
 
@@ -47,6 +53,15 @@ export class GameController {
             } else {
                 path.style.fill = "none";
             }
+        })
+    }
+
+    SetTerritoryIndexes() {
+        this.TerritoryControllers.forEach( (territory, index) => {
+            territory.index = index
+            territory.CB_onMouseOver = this.Territory_MouseOverCallBack
+            territory.CB_onMouseOut = this.Territory_MouseOutCallBack
+            territory.CB_onMouseClick = this.Territory_MouseClickCallBack
         })
     }
 

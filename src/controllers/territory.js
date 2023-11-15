@@ -4,10 +4,16 @@
 export class Territory {
 
     element = undefined
+    index = undefined
     name = ""
     color = 'white'
     hoverColor = ""
     troops = 0
+
+    // Allows Communication To Top Level
+    CB_onMouseOver = undefined
+    CB_onMouseOut = undefined
+    DB_onMouseClick = undefined
 
     constructor(name, offset_x = 0, offset_y = 0) {
         this.name = name
@@ -37,6 +43,8 @@ export class Territory {
     OnMouseOver() {
         this.element.addEventListener('mouseover', () => {
             this.element.style.filter = "invert(10%)"
+            this.CB_onMouseOver(this.index)
+            this.Update()
         })
     }
 
@@ -44,6 +52,8 @@ export class Territory {
         this.element.addEventListener('mouseout', () => {
             this.element.style.filter = 'url(#filter12951)';
             this.element.style.transition = '600ms ease all'
+            this.CB_onMouseOut(this.index)
+            this.Update()
         })
     }
 
@@ -52,6 +62,8 @@ export class Territory {
             // this.element.title = this.name
             // Show Some Kind of Popup
             console.log(this.name)
+            this.CB_onMouseClick(this.index)
+            this.Update()
         })
     }
 
