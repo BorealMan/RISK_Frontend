@@ -2,7 +2,7 @@
 import Modal from '../../modal/Modal.vue';
 import TroopSelector from '../popups/TroopSelector.vue'
 
-const { troopCount } = defineProps(['troopCount']);
+const { troopCount, selectorOutput, hideDraftSelector } = defineProps(['troopCount', 'selectorOutput', 'hideDraftSelector']);
 
 </script>
 
@@ -11,7 +11,7 @@ const { troopCount } = defineProps(['troopCount']);
         <div class="top-text">
             <p>Deploy Troops</p>
         </div>
-        <TroopSelector :troopCount="troopCount"/>
+        <TroopSelector :troopCount="troopCount" :selectorOutput="selectorOutput" :closeSelector="hideDraftSelector"/>
     </Modal>
 </template>
 

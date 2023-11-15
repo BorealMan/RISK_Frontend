@@ -3,7 +3,9 @@ import { computed, ref, watch } from 'vue';
 
 
 const props = defineProps({
-    troopCount: Number
+    troopCount: Number,
+    selectorOutput: Function,
+    closeSelector: Function
 });
 
 const totalTroops = ref([]);
@@ -49,16 +51,21 @@ const selectTroop = (number) => {
     console.log('Current Selection: ', number);
 };
 
+const cancelSelection = () => {
+    props.closeSelector();
+}
+
 const confirmSelection = () => {
     console.log('Troops Deployed: ', selectedTroop.value);
-    return selectedTroop.value;
+    props.selectorOutput(selectedTroop.value);
+    props.closeSelector();
 };
 
 </script>
 
 <template>
     <div class="selector">
-        <div class="cancel button">
+        <div class="cancel button" @click="cancelSelection">
             <svg xmlns="http://www.w3.org/2000/svg" height="1em"
                 viewBox="0 0 384 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
                 <path

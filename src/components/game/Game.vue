@@ -36,9 +36,7 @@ const Territory_MouseOutCallBack = (index) => {
 }
 
 const Territory_MouseClickCallBack = (index) => {
-    Game.value.territories[index].troops = 10
-    GC.TerritoryControllers[index].troops = 10
-    GC.TerritoryControllers[index].Update()
+    showDraftSelector.value = true;
 }
 
 // Set Call Backs To Top Level From Game Controller
@@ -88,9 +86,17 @@ gamestore.socket.on('update_territories', (res) => {
     console.log(Game)
 })
 
+const showDraftSelector = ref(false);
+const selectorOutput = ref(0);
+function HideDraftSelector() {
+    // Hides Draft Selector
+    showDraftSelector.value = false
+}
 // Select Output
 function ProcessSelectorOutput(value) {
-    // If Current Player Turn State Do Something
+    // Get Selector output
+    selectorOutput.value = value;
+    console.log(`Got to ProcessSelectorOutput: ${selectorOutput.value}`);
 }
 
 </script>
@@ -119,7 +125,7 @@ function ProcessSelectorOutput(value) {
             <Chat v-show="isChatVisible" :players="players" class="chat" :theme="'light'" />
         </transition>
         <TurnController :playerColor="playerColors[players[Game.current_player_turn].color]" />
-        <!-- <DraftInput :troopCount="10" /> -->
+        <DraftInput v-if="showDraftSelector" :troopCount="10" :selectorOutput="ProcessSelectorOutput" :hideDraftSelector="HideDraftSelector" />
 
         <NextTurn :player="players[Game.current_player_turn]"
             :playerColor="playerColors[players[Game.current_player_turn].color]" :show="showNextTurnModal" />
