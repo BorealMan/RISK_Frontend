@@ -61,6 +61,20 @@ gamestore.socket.on('increment_turn', (res) => {
     }, 1500)
 })
 
+// Show At End of Turn
+const showNewCardOverlay = ref(false);
+gamestore.socket.on('reward_card', (res) => {
+    // Implement Here
+})
+
+const troopReward = ref(0)
+gamestore.socket.on('update_players', (res) => {
+    troopReward.value = res.reward
+    // Reassign Player Values For Troop Updates
+    Game.value.players = res.players
+    players.value = res.players
+})
+
 // Timer Functionality
 const percent_filled = ref("0%");
 gamestore.socket.on('increment_timer', (res) => {
@@ -99,6 +113,12 @@ function ProcessSelectorOutput(value) {
     console.log(`Got to ProcessSelectorOutput: ${selectorOutput.value}`);
 }
 
+function GetCurrentPlayerDeployableTroops() {
+    const deployable_troops = Game.value.players[Game.value.current_player_turn].deployable_troops
+    console.log(deployable_troops)
+    return deployable_troops
+}
+
 </script>
 
 <template>
@@ -125,10 +145,10 @@ function ProcessSelectorOutput(value) {
             <Chat v-show="isChatVisible" :players="players" class="chat" :theme="'light'" />
         </transition>
         <TurnController :playerColor="playerColors[players[Game.current_player_turn].color]" />
-        <DraftInput v-if="showDraftSelector" :troopCount="10" :selectorOutput="ProcessSelectorOutput" :hideDraftSelector="HideDraftSelector" />
+        <DraftInput v-if="showDraftSelector" :troopCount="GetCurrentPlayerDeployableTroops" :selectorOutput="ProcessSelectorOutput" :hideDraftSelector="HideDraftSelector" />
 
         <NextTurn :player="players[Game.current_player_turn]"
-            :playerColor="playerColors[players[Game.current_player_turn].color]" :show="showNextTurnModal" />
+            :playerColor="playerColors[players[Game.current_player_turn].color]" :show="showNextTurnModal" :troopReward="troopReward" />
     </div>
 </template>
 

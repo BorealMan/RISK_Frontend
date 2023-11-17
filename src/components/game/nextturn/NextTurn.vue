@@ -1,7 +1,7 @@
 <script setup>
 import Modal from '../../modal/Modal.vue';
 
-const { player, playerColor, show, newTroops } = defineProps(['player', 'playerColor', 'show', 'newTroops']);
+const { player, playerColor, show, troopReward } = defineProps(['player', 'playerColor', 'show', 'troopReward']);
 
 </script>
 
@@ -15,7 +15,7 @@ const { player, playerColor, show, newTroops } = defineProps(['player', 'playerC
 
             <div class="holder">
                 <div class="trooprecieved" :style="{ backgroundColor: playerColor }">Recieved Troops</div>
-                <div class="troopnumber" :style="{ borderColor: playerColor }">5</div>
+                <div class="troopnumber" :style="{ borderColor: playerColor }">{{ troopReward }}</div>
                 <div class="trooptotal">
                     Total troops<br>
                     <p>Troops Awarded for occupying <b>{{ player.territories }} territories</b></p>
