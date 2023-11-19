@@ -11,6 +11,7 @@ import Chat from '../chat/Chat.vue';
 import NextTurn from './nextturn/NextTurn.vue';
 import playerColors from '../colors/player_colors.js'
 import DraftInput from './popups/DraftInput.vue';
+import GetCards from './cards/GetCards.vue'
 
 
 const gamestore = GameStore()
@@ -62,7 +63,7 @@ gamestore.socket.on('increment_turn', (res) => {
 })
 
 // Show At End of Turn
-const showNewCardOverlay = ref(false);
+const showNewCardOverlay = ref(true);
 gamestore.socket.on('reward_card', (res) => {
     // Implement Here
 })
@@ -145,6 +146,7 @@ function GetCurrentPlayerDeployableTroops() {
             <Chat v-show="isChatVisible" :players="players" class="chat" :theme="'light'" />
         </transition>
         <TurnController :playerColor="playerColors[players[Game.current_player_turn].color]" />
+        <GetCards v-if="showNewCardOverlay" :playerColor="playerColors[players[Game.current_player_turn].color]" :cardType="1"/>
         <DraftInput v-if="showDraftSelector" :troopCount="GetCurrentPlayerDeployableTroops" :selectorOutput="ProcessSelectorOutput" :hideDraftSelector="HideDraftSelector" />
 
         <NextTurn :player="players[Game.current_player_turn]"
