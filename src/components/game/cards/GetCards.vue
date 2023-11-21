@@ -482,13 +482,19 @@ const { playerColor, cardType } = defineProps(['playerColor', 'cardType']);
     }
     .infantry{
         position: absolute;
+        display: flex;
+        justify-content: center;
     }
     .cavalry{
         position: absolute;
+        display: flex;
+        justify-content: center;
         transform: translate(-50%, -50%);
     }
     .canon{
         position: absolute;
+        display: flex;
+        justify-content: center;
     }
 
 </style>
