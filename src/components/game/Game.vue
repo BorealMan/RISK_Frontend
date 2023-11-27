@@ -37,7 +37,7 @@ const Territory_MouseOutCallBack = (index) => {
 }
 
 const Territory_MouseClickCallBack = (index) => {
-    showDraftSelector.value = true;
+    ShowDraftSelector()
 }
 
 // Set Call Backs To Top Level From Game Controller
@@ -101,23 +101,30 @@ gamestore.socket.on('update_territories', (res) => {
     console.log(Game)
 })
 
+// Selector Functions
 const showDraftSelector = ref(false);
+const selectorTroopCount = ref(0);
 const selectorOutput = ref(0);
+
+function ShowDraftSelector() {
+    GetCurrentPlayerDeployableTroops()
+    showDraftSelector.value = true;
+}
+
 function HideDraftSelector() {
     // Hides Draft Selector
     showDraftSelector.value = false
 }
-// Select Output
+// Get Select Output
 function ProcessSelectorOutput(value) {
-    // Get Selector output
     selectorOutput.value = value;
     console.log(`Got to ProcessSelectorOutput: ${selectorOutput.value}`);
 }
 
 function GetCurrentPlayerDeployableTroops() {
     const deployable_troops = Game.value.players[Game.value.current_player_turn].deployable_troops
-    console.log(deployable_troops)
-    return deployable_troops
+    console.log(`Deployable Troops: ${deployable_troops}`)
+    selectorTroopCount.value = deployable_troops;
 }
 
 </script>
@@ -146,8 +153,8 @@ function GetCurrentPlayerDeployableTroops() {
             <Chat v-show="isChatVisible" :players="players" class="chat" :theme="'light'" />
         </transition>
         <TurnController :playerColor="playerColors[players[Game.current_player_turn].color]" />
-        <GetCards v-if="showNewCardOverlay" :playerColor="playerColors[players[Game.current_player_turn].color]" :cardType="1"/>
-        <DraftInput v-if="showDraftSelector" :troopCount="GetCurrentPlayerDeployableTroops" :selectorOutput="ProcessSelectorOutput" :hideDraftSelector="HideDraftSelector" />
+        <!-- <GetCards v-if="showNewCardOverlay" :playerColor="playerColors[players[Game.current_player_turn].color]" :cardType="1"/> -->
+        <DraftInput v-if="showDraftSelector" :troopCount="selectorTroopCount" :selectorOutput="ProcessSelectorOutput" :hideDraftSelector="HideDraftSelector" />
 
         <NextTurn :player="players[Game.current_player_turn]"
             :playerColor="playerColors[players[Game.current_player_turn].color]" :show="showNextTurnModal" :troopReward="troopReward" />
