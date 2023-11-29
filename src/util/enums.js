@@ -10,3 +10,14 @@ export const GAMESTATE = {
     'COMPLETED': 3,
 }
 
+export const PLAYER_TURN_STATE = {
+    'NOT_TURN': 0,
+    'DRAFT': 1,
+    'ATTACK': 2,
+    'REINFORCE': 3,
+}
+
+export const PLAYER_EVENTS = {
+    'DEPLOY_TROOPS': 0,
+    'ATTACK': 1,
+}

@@ -12,6 +12,7 @@ import NextTurn from './nextturn/NextTurn.vue';
 import playerColors from '../colors/player_colors.js'
 import DraftInput from './popups/DraftInput.vue';
 import GetCards from './cards/GetCards.vue'
+import { GAMESTATE, PLAYER_TURN_STATE, PLAYER_EVENTS } from '../../util/enums.js'
 
 
 const gamestore = GameStore()
@@ -37,7 +38,15 @@ const Territory_MouseOutCallBack = (index) => {
 }
 
 const Territory_MouseClickCallBack = (index) => {
-    ShowDraftSelector()
+    const current_player = Game.value.players[Game.value.current_player_turn]
+    const territory = Game.value.territories[index]
+
+    const is_your_turn = current_player.id == PlayerID.value
+    const player_owns_territory = territory.player == current_player.id
+
+    if (is_your_turn && current_player.turn_state == PLAYER_TURN_STATE.DRAFT && player_owns_territory) {
+        ShowDraftSelector()
+    }
 }
 
 // Set Call Backs To Top Level From Game Controller
@@ -55,6 +64,9 @@ setTimeout(() => {
 // Listen For Events And Rerender Conditionally
 const showNextTurnModal = ref(false);
 gamestore.socket.on('increment_turn', (res) => {
+    // Close All Other Modals For Fresh Start Each Turn
+    HideDraftSelector()
+    // Showing Modal
     Game.value.current_player_turn = res.current_player_turn;
     showNextTurnModal.value = true;
     setTimeout(() => {
@@ -124,8 +136,10 @@ function ProcessSelectorOutput(value) {
 }
 
 function GetCurrentPlayerDeployableTroops() {
-    const deployable_troops = Game.value.players[Game.value.current_player_turn].deployable_troops
+    const currentPlayer = Game.value.players[Game.value.current_player_turn]
+    const deployable_troops = currentPlayer.deployable_troops
     selectorTroopCount.value = deployable_troops;
+    console.log(`Player: ${currentPlayer.id} deployable troops ${deployable_troops}`)
 }
 
 </script>
