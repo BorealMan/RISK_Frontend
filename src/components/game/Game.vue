@@ -69,7 +69,7 @@ gamestore.socket.on('reward_card', (res) => {
 })
 
 const troopReward = ref(0)
-gamestore.socket.on('update_players', (res) => {
+gamestore.socket.on('reward_troops', (res) => {
     troopReward.value = res.reward
     // Reassign Player Values For Troop Updates
     Game.value.players = res.players
@@ -83,14 +83,17 @@ gamestore.socket.on('increment_timer', (res) => {
     percent_filled.value = `${percent}%`
 })
 
-// Logic To Connect GameController With Game Data
-gamestore.socket.on('update_territories', (res) => {
-    // Update State Values From Response
+gamestore.socket.on('update_game_state', (res) => {
+    // Reassign State Values
     Game.value.players = res.players
     players.value = res.players
     Game.value.territories = res.territories
     Game.value.contients = res.contients
-    // Update Game Controller - Screen
+    // Update Game Controller
+    GC_Update_Territory_Values()
+})
+
+function GC_Update_Territory_Values() {
     GC.TerritoryControllers.forEach((t, i) => {
         const territoryOwner = Game.value.territories[i].player
         const newColor = Game.value.players[territoryOwner].color
@@ -98,8 +101,7 @@ gamestore.socket.on('update_territories', (res) => {
         t.color = playerColors[newColor]
         t.troops = Game.value.territories[i].troops
     })
-    console.log(Game)
-})
+}
 
 // Selector Functions
 const showDraftSelector = ref(false);
@@ -123,7 +125,6 @@ function ProcessSelectorOutput(value) {
 
 function GetCurrentPlayerDeployableTroops() {
     const deployable_troops = Game.value.players[Game.value.current_player_turn].deployable_troops
-    console.log(`Deployable Troops: ${deployable_troops}`)
     selectorTroopCount.value = deployable_troops;
 }
 
