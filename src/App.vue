@@ -17,7 +17,7 @@ const { Game } = storeToRefs(gamestore)
 </script>
 
 <template>
-  <game v-if="Game.game_state == GAMESTATE.STARTING_GAME" />
+  <game v-if="Game.game_state == GAMESTATE.STARTING_GAME || Game.game_state == GAMESTATE.PLAYING_GAME" />
   <Lobby v-else-if="Game.game_state == GAMESTATE.FILLING_LOBBY"/>
   <Homepage v-else/>
 </template>

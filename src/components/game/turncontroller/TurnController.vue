@@ -1,21 +1,6 @@
 <script setup>
 
-const { playerColor } = defineProps(['playerColor']);
-
-// Socket Functionalities To Send Events
-/*
-    Phases: 
-        Game Starting:
-            - Place Pieces
-        Game Started: 
-            - Draft
-            - Attack
-            - Reinforce
-*/
-
-function ClickNextTurn() {
-    console.log("Clicked")
-}
+const { playerColor, phase, nextPhase } = defineProps(['playerColor', 'phase', 'nextPhase']);
 
 </script>
 
@@ -25,14 +10,14 @@ function ClickNextTurn() {
             <!-- Image here -->
         </div>
         <div class="turn-container" :style="{ borderColor: playerColor }">
-            <p class="turn-status">Draft</p>
+            <p class="turn-status"> {{ phase }}</p>
             <div class="phases">
                 <!-- Add active phase check -->
                 <div class="phase-pill active-phase" :style="{ borderColor: playerColor }"></div>
-                <div class="phase-pill"></div>
+                <div class="phase-pill" :class="{'active-phase': false}"></div>
                 <div class="phase-pill"></div>
             </div>
-            <div class="turn-button" :style="{ backgroundColor: playerColor }" @click="ClickNextTurn">
+            <div class="turn-button" :style="{ backgroundColor: playerColor }" @click="nextPhase()">
                 <!-- Check if player's turn -->
                 Next Phase
             </div>

@@ -20,4 +20,5 @@ export const PLAYER_TURN_STATE = {
 export const PLAYER_EVENTS = {
     'DEPLOY_TROOPS': 0,
     'ATTACK': 1,
+    'NEXT_PHASE': 2,
 }

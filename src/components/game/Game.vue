@@ -12,8 +12,7 @@ import NextTurn from './nextturn/NextTurn.vue';
 import playerColors from '../colors/player_colors.js'
 import DraftInput from './popups/DraftInput.vue';
 import GetCards from './cards/GetCards.vue'
-import { GAMESTATE, PLAYER_TURN_STATE, PLAYER_EVENTS } from '../../util/enums.js'
-
+import { PLAYER_TURN_STATE, PLAYER_EVENTS } from '../../util/enums.js'
 
 const gamestore = GameStore()
 const { Game, PlayerID } = storeToRefs(gamestore)
@@ -42,10 +41,14 @@ const Territory_MouseClickCallBack = (index) => {
     const territory = Game.value.territories[index]
 
     const is_your_turn = current_player.id == PlayerID.value
-    const player_owns_territory = territory.player == current_player.id
+    const player_owns_territory = territory.player == PlayerID.value
+
+    // console.log(`Is Your Turn: ${is_your_turn} - ${current_player.id} - ${PlayerID.value}`)
+    // console.log(`Player Turn State: ${current_player.turn_state}`)
+    // console.log(`Owns Territory: ${player_owns_territory}`)
 
     if (is_your_turn && current_player.turn_state == PLAYER_TURN_STATE.DRAFT && player_owns_territory) {
-        ShowDraftSelector()
+        ShowDraftSelector(index)
     }
 }
 
@@ -59,9 +62,20 @@ GC.SetTerritoryIndexes()
 // Run The Game Controller After 80ms Delay
 setTimeout(() => {
     GC.Run()
-}, 80)
+}, 100)
 
-// Listen For Events And Rerender Conditionally
+function GC_Update_Territory_Values() {
+    GC.TerritoryControllers.forEach((t, i) => {
+        const territoryOwner = Game.value.territories[i].player
+        const newColor = Game.value.players[territoryOwner].color
+        // Assign New Values
+        t.color = playerColors[newColor]
+        t.troops = Game.value.territories[i].troops
+        t.Update()
+    })
+}
+
+// Socket Recieve Functions
 const showNextTurnModal = ref(false);
 gamestore.socket.on('increment_turn', (res) => {
     // Close All Other Modals For Fresh Start Each Turn
@@ -86,6 +100,8 @@ gamestore.socket.on('reward_troops', (res) => {
     // Reassign Player Values For Troop Updates
     Game.value.players = res.players
     players.value = res.players
+    // Set Flags
+    UpdatePlayerTurnState()
 })
 
 // Timer Functionality
@@ -95,34 +111,50 @@ gamestore.socket.on('increment_timer', (res) => {
     percent_filled.value = `${percent}%`
 })
 
+
 gamestore.socket.on('update_game_state', (res) => {
     // Reassign State Values
+    Game.value.game_state = res.game_state
     Game.value.players = res.players
     players.value = res.players
     Game.value.territories = res.territories
     Game.value.contients = res.contients
     // Update Game Controller
     GC_Update_Territory_Values()
+    // Other Flags
+    UpdatePlayerTurnState()
 })
 
-function GC_Update_Territory_Values() {
-    GC.TerritoryControllers.forEach((t, i) => {
-        const territoryOwner = Game.value.territories[i].player
-        const newColor = Game.value.players[territoryOwner].color
-        // Assign New Values
-        t.color = playerColors[newColor]
-        t.troops = Game.value.territories[i].troops
+// Socket Emit Functions
+function DeployTroops(value) {
+    gamestore.socket.emit("player_event", Game.value.game_id, {
+            player_id: PlayerID.value, 
+            type: PLAYER_EVENTS.DEPLOY_TROOPS,
+            deploy_troops: value,
+            territory_id: selectedTerritoryIndex.value,
+        })
+}
+
+function NextPhase() {
+    gamestore.socket.emit('player_event', Game.value.game_id, {
+        type: PLAYER_EVENTS.NEXT_PHASE
     })
 }
 
 // Selector Functions
 const showDraftSelector = ref(false);
 const selectorTroopCount = ref(0);
-const selectorOutput = ref(0);
+const selectedTerritoryIndex = ref(-1)
 
-function ShowDraftSelector() {
+function ShowDraftSelector(territory_index) {
     GetCurrentPlayerDeployableTroops()
+    // If No Troops To Deploy
+    if (selectorTroopCount.value == 0) {
+        // TODO - Show Err Popup
+        return
+    } 
     showDraftSelector.value = true;
+    selectedTerritoryIndex.value = territory_index
 }
 
 function HideDraftSelector() {
@@ -131,15 +163,35 @@ function HideDraftSelector() {
 }
 // Get Select Output
 function ProcessSelectorOutput(value) {
-    selectorOutput.value = value;
-    console.log(`Got to ProcessSelectorOutput: ${selectorOutput.value}`);
+    // console.log(`Got to ProcessSelectorOutput: ${value}`);
+    const current_player = Game.value.players[Game.value.current_player_turn]
+    // console.log(`${PLAYER_TURN_STATE.DRAFT} == ${current_player.turn_state}`)
+    if (PLAYER_TURN_STATE.DRAFT == current_player.turn_state) {
+        DeployTroops(value)
+    }
 }
 
+// Game Functions
 function GetCurrentPlayerDeployableTroops() {
     const currentPlayer = Game.value.players[Game.value.current_player_turn]
-    const deployable_troops = currentPlayer.deployable_troops
-    selectorTroopCount.value = deployable_troops;
-    console.log(`Player: ${currentPlayer.id} deployable troops ${deployable_troops}`)
+    selectorTroopCount.value = currentPlayer.deployable_troops
+    // console.log(`Player: ${currentPlayer.id} deployable troops ${currentPlayer.deployable_troops}`)
+}
+
+const player_turn_state = ref("")
+function UpdatePlayerTurnState() {
+    const player = Game.value.players[Game.value.current_player_turn]
+    const phase = player.turn_state
+    console.log(`Turn State: ${player_turn_state.value}`)
+    if (phase == PLAYER_TURN_STATE.DRAFT) {
+        player_turn_state.value = "Draft"
+    } else if (phase == PLAYER_TURN_STATE.ATTACK) {
+        player_turn_state.value = "Attack"
+    } else if (phase == PLAYER_TURN_STATE.REINFORCE) {
+        player_turn_state.value = "Reinforce"
+    } else {
+        player_turn_state.value = "Error"
+    }
 }
 
 </script>
@@ -167,7 +219,7 @@ function GetCurrentPlayerDeployableTroops() {
         <transition name="slide">
             <Chat v-show="isChatVisible" :players="players" class="chat" :theme="'light'" />
         </transition>
-        <TurnController :playerColor="playerColors[players[Game.current_player_turn].color]" />
+        <TurnController :playerColor="playerColors[players[Game.current_player_turn].color]" :phase="player_turn_state" :nextPhase="NextPhase"/>
         <!-- <GetCards v-if="showNewCardOverlay" :playerColor="playerColors[players[Game.current_player_turn].color]" :cardType="1"/> -->
         <DraftInput v-if="showDraftSelector" :troopCount="selectorTroopCount" :selectorOutput="ProcessSelectorOutput" :hideDraftSelector="HideDraftSelector" />
 

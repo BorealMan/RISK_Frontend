@@ -9,6 +9,7 @@ export class Territory {
     color = 'white'
     hoverColor = ""
     troops = 0
+    initalized = false
 
     // Allows Communication To Top Level
     CB_onMouseOver = undefined
@@ -24,6 +25,7 @@ export class Territory {
     Run() {
         this.element = document.getElementById(this.name)
         // Set Colors For Territories Here
+        this.initalized = true
         this.element.style.fill = this.color
         this.element.style.cursor = 'pointer'
         this.AddEventListeners()
@@ -31,7 +33,7 @@ export class Territory {
     }
 
     Update() {
-        this.DrawTroopIcon(this.troops)
+        if (this.initalized) this.DrawTroopIcon(this.troops)
     }
 
     AddEventListeners() {
