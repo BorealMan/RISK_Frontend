@@ -13,6 +13,7 @@ import playerColors from '../colors/player_colors.js'
 import DraftInput from './popups/DraftInput.vue';
 import GetCards from './cards/GetCards.vue'
 import { PLAYER_TURN_STATE, PLAYER_EVENTS } from '../../util/enums.js'
+import Modal from '../modal/Modal.vue';
 
 const gamestore = GameStore()
 const { Game, PlayerID } = storeToRefs(gamestore)
@@ -142,9 +143,11 @@ function NextPhase() {
 
     // Draft Phase Conditions
     if (current_player.turn_state == PLAYER_TURN_STATE.DRAFT) {
+        if (!is_your_turn) {
+            return SetError("It's Not Your Turn")
+        }
         if (!is_your_turn || !current_player.deployable_troops <= 0) {
-            console.log(`Deployable Troops: ${current_player.deployable_troops}`)
-            return
+            return SetError("You Must Deploy All Your Troops")
         }
     }
 
@@ -157,7 +160,6 @@ function NextPhase() {
 const showDraftSelector = ref(false);
 const selectorTroopCount = ref(0);
 const selectedTerritoryIndex = ref(-1)
-const err = ref("");
 
 function ShowDraftSelector(territory_index) {
     GetCurrentPlayerDeployableTroops()
@@ -209,6 +211,20 @@ function UpdatePlayerTurnState() {
     // }
 }
 
+// Error Popups
+const err = ref("");
+function SetError(error) {
+    err.value = error
+    // Set Error View
+    setTimeout( () => {
+        ResetError()
+    }, 2000)
+}
+
+function ResetError() {
+    err.value = ""
+}
+
 </script>
 
 <template>
@@ -240,6 +256,7 @@ function UpdatePlayerTurnState() {
 
         <NextTurn :player="players[Game.current_player_turn]"
             :playerColor="playerColors[players[Game.current_player_turn].color]" :show="showNextTurnModal" :troopReward="troopReward" />
+
         <div class="notrooperror" v-if="err !== undefined"> {{ err }}</div>
     </div>
 </template>
