@@ -157,16 +157,18 @@ function NextPhase() {
 const showDraftSelector = ref(false);
 const selectorTroopCount = ref(0);
 const selectedTerritoryIndex = ref(-1)
+const err = ref("");
 
 function ShowDraftSelector(territory_index) {
     GetCurrentPlayerDeployableTroops()
     // If No Troops To Deploy
     if (selectorTroopCount.value == 0) {
         // TODO - Show Err Popup
+        err.value = "No More Troops Left";
         return
     } 
     showDraftSelector.value = true;
-    selectedTerritoryIndex.value = territory_index
+    selectedTerritoryIndex.value = territory_index;
 }
 
 function HideDraftSelector() {
@@ -238,6 +240,7 @@ function UpdatePlayerTurnState() {
 
         <NextTurn :player="players[Game.current_player_turn]"
             :playerColor="playerColors[players[Game.current_player_turn].color]" :show="showNextTurnModal" :troopReward="troopReward" />
+        <div class="notrooperror" v-if="err !== undefined"> {{ err }}</div>
     </div>
 </template>
 
@@ -284,6 +287,19 @@ function UpdatePlayerTurnState() {
     right: 0;
     top: 50%;
     transform: translateY(-50%);
+}
+
+.notrooperror{
+    position: absolute;
+    margin-top: 1rem;
+    font-size: 1.5rem;
+    left: 50%;
+    top: 50%;
+    color: orange;
+    font-weight: 600;
+    -webkit-text-stroke: 1px black;
+    user-select: none;
+    transform: translate(-50%,-50%);
 }
 
 .slide-enter-active,
