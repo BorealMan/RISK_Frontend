@@ -1,6 +1,22 @@
 <script setup>
 
+import { PLAYER_TURN_STATE } from '../../../util/enums';
+
 const { playerColor, phase, nextPhase } = defineProps(['playerColor', 'phase', 'nextPhase']);
+
+
+function displayText() {
+    console.log(`TurnController: Turn State: ${phase}`)
+    if (phase == PLAYER_TURN_STATE.DRAFT) {
+       return "Draft"
+    } else if (phase == PLAYER_TURN_STATE.ATTACK) {
+        return "Attack"
+    } else if (phase == PLAYER_TURN_STATE.REINFORCE) {
+        return "Reinforce"
+    } else {
+        return "Error"
+    }
+}
 
 </script>
 
@@ -10,7 +26,7 @@ const { playerColor, phase, nextPhase } = defineProps(['playerColor', 'phase', '
             <!-- Image here -->
         </div>
         <div class="turn-container" :style="{ borderColor: playerColor }">
-            <p class="turn-status"> {{ phase }}</p>
+            <p class="turn-status"> {{ displayText() }}</p>
             <div class="phases">
                 <!-- Add active phase check -->
                 <div class="phase-pill active-phase" :style="{ borderColor: playerColor }"></div>

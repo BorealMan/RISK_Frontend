@@ -136,6 +136,18 @@ function DeployTroops(value) {
 }
 
 function NextPhase() {
+    const current_player = Game.value.players[Game.value.current_player_turn]
+
+    const is_your_turn = current_player.id == PlayerID.value
+
+    // Draft Phase Conditions
+    if (current_player.turn_state == PLAYER_TURN_STATE.DRAFT) {
+        if (!is_your_turn || !current_player.deployable_troops <= 0) {
+            console.log(`Deployable Troops: ${current_player.deployable_troops}`)
+            return
+        }
+    }
+
     gamestore.socket.emit('player_event', Game.value.game_id, {
         type: PLAYER_EVENTS.NEXT_PHASE
     })
@@ -178,20 +190,21 @@ function GetCurrentPlayerDeployableTroops() {
     // console.log(`Player: ${currentPlayer.id} deployable troops ${currentPlayer.deployable_troops}`)
 }
 
-const player_turn_state = ref("")
+const player_turn_state = ref(0)
 function UpdatePlayerTurnState() {
     const player = Game.value.players[Game.value.current_player_turn]
-    const phase = player.turn_state
-    console.log(`Turn State: ${player_turn_state.value}`)
-    if (phase == PLAYER_TURN_STATE.DRAFT) {
-        player_turn_state.value = "Draft"
-    } else if (phase == PLAYER_TURN_STATE.ATTACK) {
-        player_turn_state.value = "Attack"
-    } else if (phase == PLAYER_TURN_STATE.REINFORCE) {
-        player_turn_state.value = "Reinforce"
-    } else {
-        player_turn_state.value = "Error"
-    }
+    // const phase = player.turn_state
+    player_turn_state.value = player.turn_state
+    console.log(`Game: Turn State: ${player_turn_state.value}`)
+    // if (phase == PLAYER_TURN_STATE.DRAFT) {
+    //     player_turn_state.value = "Draft"
+    // } else if (phase == PLAYER_TURN_STATE.ATTACK) {
+    //     player_turn_state.value = "Attack"
+    // } else if (phase == PLAYER_TURN_STATE.REINFORCE) {
+    //     player_turn_state.value = "Reinforce"
+    // } else {
+    //     player_turn_state.value = "Error"
+    // }
 }
 
 </script>
