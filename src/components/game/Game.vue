@@ -49,7 +49,11 @@ const Territory_MouseClickCallBack = (index) => {
     // console.log(`Player Turn State: ${current_player.turn_state}`)
     // console.log(`Owns Territory: ${player_owns_territory}`)
 
-    if (is_your_turn && current_player.turn_state == PLAYER_TURN_STATE.DRAFT && player_owns_territory) {
+    if (!is_your_turn ){
+        return SetError("It's Not Your Turn")
+    }
+
+    if (current_player.turn_state == PLAYER_TURN_STATE.DRAFT && player_owns_territory) {
         ShowDraftSelector(index)
     }
 }
@@ -141,13 +145,14 @@ function NextPhase() {
     const current_player = Game.value.players[Game.value.current_player_turn]
 
     const is_your_turn = current_player.id == PlayerID.value
+    
+    if (!is_your_turn) {
+        return SetError("It's Not Your Turn")
+    }
 
     // Draft Phase Conditions
-    if (current_player.turn_state == PLAYER_TURN_STATE.DRAFT) {
-        if (!is_your_turn) {
-            return SetError("It's Not Your Turn")
-        }
-        if (!is_your_turn || !current_player.deployable_troops <= 0) {
+    if (current_player.turn_state == PLAYER_TURN_STATE.DRAFT) {        
+        if (!current_player.deployable_troops <= 0) {
             return SetError("You Must Deploy All Your Troops")
         }
     }
