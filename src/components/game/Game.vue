@@ -14,6 +14,7 @@ import DraftInput from './popups/DraftInput.vue';
 import GetCards from './cards/GetCards.vue'
 import { PLAYER_TURN_STATE, PLAYER_EVENTS } from '../../util/enums.js'
 import Modal from '../modal/Modal.vue';
+import ErrorPopup from './popups/ErrorPopup.vue';
 
 const gamestore = GameStore()
 const { Game, PlayerID } = storeToRefs(gamestore)
@@ -166,8 +167,7 @@ function ShowDraftSelector(territory_index) {
     // If No Troops To Deploy
     if (selectorTroopCount.value == 0) {
         // TODO - Show Err Popup
-        err.value = "No More Troops Left";
-        return
+        return SetError("No More Troops Left");
     } 
     showDraftSelector.value = true;
     selectedTerritoryIndex.value = territory_index;
@@ -216,7 +216,7 @@ const err = ref("");
 function SetError(error) {
     err.value = error
     // Set Error View
-    setTimeout( () => {
+    setTimeout(() => {
         ResetError()
     }, 2000)
 }
@@ -257,7 +257,8 @@ function ResetError() {
         <NextTurn :player="players[Game.current_player_turn]"
             :playerColor="playerColors[players[Game.current_player_turn].color]" :show="showNextTurnModal" :troopReward="troopReward" />
 
-        <div class="notrooperror" v-if="err !== undefined"> {{ err }}</div>
+        <ErrorPopup :err="err" :ResetError="ResetError" />
+
     </div>
 </template>
 
@@ -304,19 +305,6 @@ function ResetError() {
     right: 0;
     top: 50%;
     transform: translateY(-50%);
-}
-
-.notrooperror{
-    position: absolute;
-    margin-top: 1rem;
-    font-size: 1.5rem;
-    left: 50%;
-    top: 50%;
-    color: orange;
-    font-weight: 600;
-    -webkit-text-stroke: 1px black;
-    user-select: none;
-    transform: translate(-50%,-50%);
 }
 
 .slide-enter-active,

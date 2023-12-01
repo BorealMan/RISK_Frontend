@@ -109,14 +109,15 @@ svg {
 }
 
 @media (max-width: 1600px) {
-    .container {
-        width: 15%;
-    }
     .player-stats {
         flex-direction: column;
     }
     .player-details h3 {
         display:none;
     }
+    .player-details {
+        width: 125px;
+    }
 }
+
 </style>
