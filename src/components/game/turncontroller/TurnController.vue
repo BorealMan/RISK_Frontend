@@ -5,7 +5,8 @@ import { PLAYER_TURN_STATE } from '../../../util/enums';
 const { playerColor, phase, nextPhase } = defineProps(['playerColor', 'phase', 'nextPhase']);
 
 
-function displayText() {
+
+function displayText(phase) {
     console.log(`TurnController: Turn State: ${phase}`)
     if (phase == PLAYER_TURN_STATE.DRAFT) {
        return "Draft"
@@ -18,6 +19,13 @@ function displayText() {
     }
 }
 
+function calculatePill(position, phase) {
+    if (position == phase) {
+        return true
+    } 
+    return false
+}
+
 </script>
 
 <template>
@@ -26,12 +34,12 @@ function displayText() {
             <!-- Image here -->
         </div>
         <div class="turn-container" :style="{ borderColor: playerColor }">
-            <p class="turn-status"> {{ displayText() }}</p>
-            <div class="phases">
+            <p class="turn-status"> {{ displayText(phase) }}</p>
+            <div class="phases" :key="phase">
                 <!-- Add active phase check -->
-                <div class="phase-pill active-phase" :style="{ borderColor: playerColor }"></div>
-                <div class="phase-pill" :class="{'active-phase': false}"></div>
-                <div class="phase-pill"></div>
+                <div class="phase-pill" :class="{'active-phase': calculatePill(1, phase)}"></div>
+                <div class="phase-pill" :class="{'active-phase': calculatePill(2, phase)}"></div>
+                <div class="phase-pill" :class="{'active-phase': calculatePill(3, phase)}"></div>
             </div>
             <div class="turn-button" :style="{ backgroundColor: playerColor }" @click="nextPhase()">
                 <!-- Check if player's turn -->
