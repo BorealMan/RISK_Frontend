@@ -21,8 +21,10 @@ watch(() => props.troopCount, (newCount) => {
 
 const visibleTroops = computed(() => {
     const totalLength = totalTroops.value.length;
+    const numberOfVisibleTroops = Math.min(5, totalLength);
+
     let startIndex = currentIndex.value - 2;
-    let endIndex = startIndex + 5;
+    let endIndex = startIndex + numberOfVisibleTroops;
 
     if (startIndex < 0) {
         startIndex = totalLength + startIndex;
@@ -32,7 +34,7 @@ const visibleTroops = computed(() => {
     }
 
     let tempArray = [];
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < numberOfVisibleTroops; i++) {
         let index = (startIndex + i) % totalLength;
         tempArray.push(totalTroops.value[index]);
     }
