@@ -4,8 +4,6 @@ import { PLAYER_TURN_STATE } from '../../../util/enums';
 
 const { playerColor, phase, nextPhase } = defineProps(['playerColor', 'phase', 'nextPhase']);
 
-
-
 function displayText(phase) {
     console.log(`TurnController: Turn State: ${phase}`)
     if (phase == PLAYER_TURN_STATE.DRAFT) {

@@ -38,6 +38,9 @@ const Territory_MouseOutCallBack = (index) => {
 
 }
 
+const attack_from = ref(-1)
+const attack_to = ref(-1)
+
 const Territory_MouseClickCallBack = (index) => {
     const current_player = Game.value.players[Game.value.current_player_turn]
     const territory = Game.value.territories[index]
@@ -53,8 +56,29 @@ const Territory_MouseClickCallBack = (index) => {
         return SetError("It's Not Your Turn")
     }
 
+    // Draft Phase Logic
     if (current_player.turn_state == PLAYER_TURN_STATE.DRAFT && player_owns_territory) {
-        ShowDraftSelector(index)
+        return ShowDraftSelector(index)
+    }
+    // Attack Phase Logic
+    else if (current_player.turn_state == PLAYER_TURN_STATE.ATTACK) {
+        if (Game.value.territories[index].player == current_player.id) {
+            attack_from.value = index
+            console.log(`Attack From: ${attack_from.value}`)
+            // TODO - Send Socket Event To Display Attack Animation To Everyone
+        } 
+        else if (attack_from.value >= 0) {
+            if (!isTerritoryConnected(attack_from.value, index)) {
+                return SetError("Invalid Path To Attack")
+            }
+            attack_to.value = index 
+            console.log(`Attacking ${attack_to.value} from ${attack_from.value}`)
+            return AttackTerritory(attack_from.value, attack_to.value)
+        }
+    } 
+    // Reinforce Phase Logic
+    else if (current_player.turn_state == PLAYER_TURN_STATE.REINFORCE) {
+
     }
 }
 
@@ -141,6 +165,15 @@ function DeployTroops(value) {
         })
 }
 
+function AttackTerritory(from_id, to_id) {
+    gamestore.socket.emit("player_event", Game.value.game_id, {
+        player_id: PlayerID.value,
+        type: PLAYER_EVENTS.ATTACK,
+        attack_from: from_id,
+        attack_to: to_id
+    })
+}
+
 function NextPhase() {
     const current_player = Game.value.players[Game.value.current_player_turn]
 
@@ -196,24 +229,22 @@ function ProcessSelectorOutput(value) {
 function GetCurrentPlayerDeployableTroops() {
     const currentPlayer = Game.value.players[Game.value.current_player_turn]
     selectorTroopCount.value = currentPlayer.deployable_troops
-    // console.log(`Player: ${currentPlayer.id} deployable troops ${currentPlayer.deployable_troops}`)
 }
 
 const player_turn_state = ref(0)
 function UpdatePlayerTurnState() {
     const player = Game.value.players[Game.value.current_player_turn]
-    // const phase = player.turn_state
     player_turn_state.value = player.turn_state
-    console.log(`Game: Turn State: ${player_turn_state.value}`)
-    // if (phase == PLAYER_TURN_STATE.DRAFT) {
-    //     player_turn_state.value = "Draft"
-    // } else if (phase == PLAYER_TURN_STATE.ATTACK) {
-    //     player_turn_state.value = "Attack"
-    // } else if (phase == PLAYER_TURN_STATE.REINFORCE) {
-    //     player_turn_state.value = "Reinforce"
-    // } else {
-    //     player_turn_state.value = "Error"
-    // }
+}
+
+function isTerritoryConnected(t_index1, t_index2) {
+    const territory = Game.value.territories[t_index1]
+    for(let i = 0; i < territory.connections.length; i++) {
+        if (territory.connections[i] == t_index2) {
+            return true
+        }
+    }
+    return false
 }
 
 // Error Popups
