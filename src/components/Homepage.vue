@@ -4,6 +4,7 @@ import { ref } from 'vue'
 import Modal from "./modal/Modal.vue"
 import Username from './popups/Username.vue'
 import JoinGame from './popups/JoinGame.vue';
+import JoinGameDisplay from './popups/JoinGameDisplay.vue';
 // State Imports
 import GameStore from '../store/game.js'
 import { storeToRefs } from 'pinia';
@@ -95,6 +96,11 @@ function autoJoinFromLobbyURL() {
     }
 }
 
+const showAvailableGames = ref(false)
+function ToggleAvailableGames() {
+    showAvailableGames.value = showAvailableGames.value ? false : true
+}
+
 autoJoinFromLobbyURL()
 
 </script>
@@ -109,7 +115,8 @@ autoJoinFromLobbyURL()
 
         <div class="buttons">
             <div class="button" @click="StartNewGame">Start A New Game</div>
-            <div class="button" @click="JoinAGame">Join A Game</div>
+            <!-- <div class="button" @click="JoinAGame">Join A Game</div> -->
+            <div class="button" @click="ToggleAvailableGames">Join A Game</div>
             <div class="error textcenter" v-if="err !== undefined"> {{ err }}</div>
         </div>
 
@@ -117,9 +124,11 @@ autoJoinFromLobbyURL()
             <Username :setUsername="setUsername" :reset="ResetVars" />
         </Modal>
 
-        <Modal v-show="isUsernameSet && !isLobbySet">
+        <!-- <Modal v-show="isUsernameSet && !isLobbySet">
             <JoinGame :setLobby="setLobby" :reset="ResetVars" />
-        </Modal>
+        </Modal> -->
+
+        <JoinGameDisplay v-if="showAvailableGames" :setLobby="setLobby" :toggleAvailableGames="ToggleAvailableGames" />
 
     </div>
 </template>

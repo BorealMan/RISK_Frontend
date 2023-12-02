@@ -80,7 +80,7 @@
     color: darkorange;
 }
 
-.prompt #close {
+#close {
     position: absolute;
     top: 5%;
     right: 15px;
@@ -90,7 +90,7 @@
     transition: all 600ms ease;
 }
 
-.prompt #close:hover {
+#close:hover {
     border-color: white;
     border-radius: 50%;
     cursor: pointer;
