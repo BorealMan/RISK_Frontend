@@ -10,7 +10,7 @@ import Timer from './timer/Timer.vue';
 import Chat from '../chat/Chat.vue';
 import NextTurn from './nextturn/NextTurn.vue';
 import playerColors from '../colors/player_colors.js'
-import DraftInput from './popups/DraftInput.vue';
+import SelectorInput from './popups/SelectorInput.vue';
 import GetCards from './cards/GetCards.vue'
 import { PLAYER_TURN_STATE, PLAYER_EVENTS } from '../../util/enums.js'
 import Modal from '../modal/Modal.vue';
@@ -41,7 +41,6 @@ const Territory_MouseOutCallBack = (index) => {
 // Attacking Flags
 const attack_from = ref(-1)
 const attack_to = ref(-1)
-const attacking_troops = ref(1)
 const battle = ref(false)
 
 const Territory_MouseClickCallBack = (index) => {
@@ -76,8 +75,7 @@ const Territory_MouseClickCallBack = (index) => {
             }
             attack_to.value = index 
             console.log(`Attacking ${attack_to.value} from ${attack_from.value}`)
-            // TODO - SELECT # Of Attacking Troops
-            return AttackTerritory(attack_from.value, attack_to.value, attacking_troops.value)
+            return ShowAttackSelector(index)
         }
     } 
     // Reinforce Phase Logic
@@ -117,6 +115,7 @@ const showNextTurnModal = ref(false);
 gamestore.socket.on('increment_turn', (res) => {
     // Close All Other Modals For Fresh Start Each Turn
     HideDraftSelector()
+    HideAttackSelector()
     // Showing Modal
     Game.value.current_player_turn = res.current_player_turn;
     showNextTurnModal.value = true;
@@ -160,7 +159,6 @@ gamestore.socket.on('update_game_state', (res) => {
     GC_Update_Territory_Values()
     // Other Flags
     UpdatePlayerTurnState()
-    console.log(`Territories: ${JSON.stringify(Game.value.territories)}`)
 })
 
 // Socket Emit Functions
@@ -169,7 +167,7 @@ function DeployTroops(value) {
             player_id: PlayerID.value, 
             type: PLAYER_EVENTS.DEPLOY_TROOPS,
             deploy_troops: value,
-            territory_id: selectedTerritoryIndex.value,
+            territory_id: draftSelectedTerritoryIndex.value,
         })
 }
 
@@ -205,20 +203,20 @@ function NextPhase() {
     })
 }
 
-// Selector Functions
+// Draft Selector Functions
 const showDraftSelector = ref(false);
-const selectorTroopCount = ref(0);
-const selectedTerritoryIndex = ref(-1)
+const draftSelectorTroopCount = ref(0);
+const draftSelectedTerritoryIndex = ref(-1)
 
 function ShowDraftSelector(territory_index) {
     GetCurrentPlayerDeployableTroops()
     // If No Troops To Deploy
-    if (selectorTroopCount.value == 0) {
+    if (draftSelectorTroopCount.value == 0) {
         // TODO - Show Err Popup
         return SetError("No More Troops Left");
     } 
     showDraftSelector.value = true;
-    selectedTerritoryIndex.value = territory_index;
+    draftSelectedTerritoryIndex.value = territory_index;
 }
 
 function HideDraftSelector() {
@@ -235,10 +233,36 @@ function ProcessSelectorOutput(value) {
     }
 }
 
+// Attack Selector Functions
+const showAttackSelector = ref(false);
+const attackSelectorTroopCount = ref(0);
+
+function ShowAttackSelector() {
+    // const player_id = Game.value.territories[territory_index].player
+    attackSelectorTroopCount.value = Game.value.territories[attack_from.value].troops - 1
+    if (attackSelectorTroopCount.value <= 0) {
+        return SetError("Not Enough Troops To Attack")
+    }
+    showAttackSelector.value = true
+}
+
+function HideAttackSelector() {
+    showAttackSelector.value = false;
+}
+
+function ProcessAttackSelector(value) {
+    console.log("Process Attack Selector")
+    const current_player = Game.value.players[Game.value.current_player_turn]
+    if (PLAYER_TURN_STATE.ATTACK == current_player.turn_state) {
+        // Battle or Blitz
+        return AttackTerritory(attack_from.value, attack_to.value, value)
+    }
+}
+
 // Game Functions
 function GetCurrentPlayerDeployableTroops() {
     const currentPlayer = Game.value.players[Game.value.current_player_turn]
-    selectorTroopCount.value = currentPlayer.deployable_troops
+    draftSelectorTroopCount.value = currentPlayer.deployable_troops
 }
 
 const player_turn_state = ref(0)
@@ -298,7 +322,10 @@ function ResetError() {
         </transition>
         <TurnController :playerColor="playerColors[players[Game.current_player_turn].color]" :phase="player_turn_state" :nextPhase="NextPhase"/>
         <!-- <GetCards v-if="showNewCardOverlay" :playerColor="playerColors[players[Game.current_player_turn].color]" :cardType="1"/> -->
-        <DraftInput v-if="showDraftSelector" :troopCount="selectorTroopCount" :selectorOutput="ProcessSelectorOutput" :hideDraftSelector="HideDraftSelector" />
+        <!-- <DraftInput v-if="showDraftSelector" :troopCount="selectorTroopCount" :selectorOutput="ProcessSelectorOutput" :hideDraftSelector="HideDraftSelector" /> -->
+        <SelectorInput v-if="showDraftSelector" :troopCount="draftSelectorTroopCount" :selectorOutput="ProcessSelectorOutput" :hideSelector="HideDraftSelector">Deploy Troops</SelectorInput>
+
+        <SelectorInput v-if="showAttackSelector" :troopCount="attackSelectorTroopCount" :selectorOutput="ProcessAttackSelector" :hideSelector="HideAttackSelector">Attacking Troops</SelectorInput>
 
         <NextTurn :player="players[Game.current_player_turn]"
             :playerColor="playerColors[players[Game.current_player_turn].color]" :show="showNextTurnModal" :troopReward="troopReward" />
