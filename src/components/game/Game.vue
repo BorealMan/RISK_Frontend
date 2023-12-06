@@ -38,8 +38,11 @@ const Territory_MouseOutCallBack = (index) => {
 
 }
 
+// Attacking Flags
 const attack_from = ref(-1)
 const attack_to = ref(-1)
+const attacking_troops = ref(1)
+const battle = ref(false)
 
 const Territory_MouseClickCallBack = (index) => {
     const current_player = Game.value.players[Game.value.current_player_turn]
@@ -73,7 +76,8 @@ const Territory_MouseClickCallBack = (index) => {
             }
             attack_to.value = index 
             console.log(`Attacking ${attack_to.value} from ${attack_from.value}`)
-            return AttackTerritory(attack_from.value, attack_to.value)
+            // TODO - SELECT # Of Attacking Troops
+            return AttackTerritory(attack_from.value, attack_to.value, attacking_troops.value)
         }
     } 
     // Reinforce Phase Logic
@@ -99,8 +103,11 @@ function GC_Update_Territory_Values() {
         const territoryOwner = Game.value.territories[i].player
         const newColor = Game.value.players[territoryOwner].color
         // Assign New Values
+        // console.log(t)
         t.color = playerColors[newColor]
         t.troops = Game.value.territories[i].troops
+        // console.log(t)
+        t.SetPlayerColor(t.color)
         t.Update()
     })
 }
@@ -153,6 +160,7 @@ gamestore.socket.on('update_game_state', (res) => {
     GC_Update_Territory_Values()
     // Other Flags
     UpdatePlayerTurnState()
+    console.log(`Territories: ${JSON.stringify(Game.value.territories)}`)
 })
 
 // Socket Emit Functions
@@ -165,12 +173,14 @@ function DeployTroops(value) {
         })
 }
 
-function AttackTerritory(from_id, to_id) {
+function AttackTerritory(from_id, to_id, attacking_troops, battle=false) {
     gamestore.socket.emit("player_event", Game.value.game_id, {
         player_id: PlayerID.value,
         type: PLAYER_EVENTS.ATTACK,
         attack_from: from_id,
-        attack_to: to_id
+        attack_to: to_id,
+        attacking_troops: attacking_troops,
+        battle: battle,
     })
 }
 

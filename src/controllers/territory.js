@@ -33,7 +33,8 @@ export class Territory {
     }
 
     Update() {
-        if (this.initalized) this.DrawTroopIcon(this.troops)
+        if (!this.initalized) return
+        this.DrawTroopIcon(this.troops)
     }
 
     AddEventListeners() {
@@ -70,9 +71,9 @@ export class Territory {
     }
 
     SetPlayerColor(color) {
+        if (!this.initalized) return
         this.color = color;
-        this.element.fill = this.color
-        this.Update()
+        this.element.style.fill = color
     }
 
     GetCenter() {
