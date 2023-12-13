@@ -49,11 +49,13 @@ function CloseView() {
             <div class="games" v-else>
                 <div class="heading">
                     <h2>Game</h2>
+                    <h2>Host</h2>
                     <h2>Players</h2>
                     <h2>Mode</h2>
                 </div>
                 <div class="game" v-for=" (game, i) in Games" :key="i" title="Click To Join" @click="ReturnGame(game)">
                     <p>Game {{ i+1 }}</p>
+                    <p>{{ game.host }}</p>
                     <p>{{ game.players }}</p>
                     <p>Classic</p>
                 </div>
@@ -95,19 +97,20 @@ function CloseView() {
 
     .heading {
         display:flex;
-        gap: 2rem;
+        padding: 1rem 0;
+        text-align: center;
     }
     
     .heading h2 {
-        margin-left: 1rem;
+        min-width: 12ch;
     }
 
     .game {
         display:flex;
-        gap: 4.5rem;
         padding: 1rem 0;
         width: 100%;
         transition: all 200ms ease;
+        text-align: center;
     }
 
     .game:hover {
@@ -118,6 +121,6 @@ function CloseView() {
     }
 
     .game p {
-        margin-left: 1rem;
+        min-width: 18.5ch;
     }
 </style>

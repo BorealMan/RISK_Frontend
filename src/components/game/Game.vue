@@ -155,6 +155,7 @@ gamestore.socket.on('update_game_state', (res) => {
     players.value = res.players
     Game.value.territories = res.territories
     Game.value.contients = res.contients
+    console.log("Players: ", Game.value.players)
     // Update Game Controller
     GC_Update_Territory_Values()
     // Other Flags
